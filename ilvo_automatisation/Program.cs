@@ -13,6 +13,9 @@ public class Program
         {
             GenerateClasses(dbContext, outputPath);
         }
+      
+        GenerateMockData generateMockData;
+        generateMockData = new GenerateMockData();
     }
 
     private static string GetDefaultOutputPath()
