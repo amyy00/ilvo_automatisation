@@ -5,9 +5,10 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        GenerateMockData generateMockData;
         string connectionString = Constants.connectionString; // Replace with your database connection string
         string outputPath = GetDefaultOutputPath(); // Get the default output path
-
+        generateMockData = new GenerateMockData();
         GenerateClasses(connectionString, outputPath);
     }
 
