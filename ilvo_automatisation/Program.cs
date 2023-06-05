@@ -22,35 +22,10 @@ public class Program
 
     private static void GenerateClasses(string connectionString, string outputPath)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
-
-        using (var dbContext = new DbContext(optionsBuilder.Options))
+        using (var dbContext = DbContextFactory.CreateDbContext(connectionString))
         {
-            var entityTypes = dbContext.Model.GetEntityTypes();
-
-            var classDefinitions = entityTypes.Select(entityType =>
-            {
-                var tableName = entityType.GetTableName();
-                var className = entityType.Name;
-
-                var properties = entityType.GetProperties()
-                    .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
-                    .ToList();
-
-                var classDefinition = $"public class {className}\n" +
-                    "{\n" +
-                    string.Join("\n", properties) +
-                    "\n}\n";
-
-                return classDefinition;
-            }).ToList();
-
-            var outputText = $"using System;\n\nnamespace DatabaseClasses\n{{\n{string.Join("\n", classDefinitions)}}}";
-
-            string outputFilePath = Path.Combine(outputPath, "DatabaseClasses.cs");
-            File.WriteAllText(outputFilePath, outputText);
-            Console.WriteLine($"Classes generated successfully. Output file: {outputFilePath}");
+            var classGenerator = new ClassGenerator(dbContext);
+            classGenerator.GenerateClasses(outputPath);
         }
     }
 }
