@@ -13,7 +13,7 @@ public partial class EmavContext : DbContext
     {
     }
 
-    public virtual DbSet<AangifteDierStalPa> AangifteDierStalPas { get; set; }
+    public virtual DbSet<AangifteDierStalPas> AangifteDierStalPas { get; set; }
 
     public virtual DbSet<Bemesting> Bemestings { get; set; }
 
@@ -117,9 +117,9 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<TblGebruiker> TblGebruikers { get; set; }
 
-    public virtual DbSet<TblPa> TblPas { get; set; }
+    public virtual DbSet<TblPas> TblPas { get; set; }
 
-    public virtual DbSet<TblPa1> TblPas1 { get; set; }
+    public virtual DbSet<TblPas1> TblPas1 { get; set; }
 
     public virtual DbSet<TblParameter> TblParameters { get; set; }
 
@@ -147,7 +147,7 @@ public partial class EmavContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<AangifteDierStalPa>(entity =>
+        modelBuilder.Entity<AangifteDierStalPas>(entity =>
         {
             entity.ToTable("AANGIFTE_DIER_STAL_PAS");
 
@@ -1474,7 +1474,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.SurName).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<TblPa>(entity =>
+        modelBuilder.Entity<TblPas>(entity =>
         {
             entity.ToTable("tblPAS", tb =>
                 {
@@ -1499,7 +1499,7 @@ public partial class EmavContext : DbContext
                 .HasConstraintName("FK_tblPAS_tblVersie");
         });
 
-        modelBuilder.Entity<TblPa1>(entity =>
+        modelBuilder.Entity<TblPas1>(entity =>
         {
             entity.HasKey(e => e.HistoryId).HasName("PK__tblPAS__4D7B4ADD774BA6BA");
 

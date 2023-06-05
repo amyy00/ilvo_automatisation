@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace ilvo_automatisation.Models;
 
-public partial class TblPa1
+public partial class TblPas
 {
-    public int HistoryId { get; set; }
-
     public Guid Id { get; set; }
 
     public string Naam { get; set; } = null!;
@@ -21,15 +19,5 @@ public partial class TblPa1
 
     public Guid VersieId { get; set; }
 
-    public string? UpdatedBy { get; set; }
-
-    public DateTime? UpdatedOn { get; set; }
-
-    public string? Status { get; set; }
-
-    public double? WeideUren { get; set; }
-
-    public string? Staltype { get; set; }
-
-    public double? Efnh3traditioneel { get; set; }
+    public virtual TblVersie Versie { get; set; } = null!;
 }

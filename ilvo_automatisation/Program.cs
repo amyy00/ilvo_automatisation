@@ -1,6 +1,7 @@
 ﻿using ilvo_automatisation;
 using Microsoft.EntityFrameworkCore;
 using System;
+using ilvo_automatisation.Models;
 
 public class Program
 {
@@ -13,9 +14,6 @@ public class Program
         {
             GenerateClasses(dbContext, outputPath);
         }
-      
-        GenerateMockData generateMockData;
-        generateMockData = new GenerateMockData();
     }
 
     private static string GetDefaultOutputPath()
@@ -29,6 +27,7 @@ public class Program
     private static void GenerateClasses(IlvoDbContext dbContext, string outputPath)
     {
         var entityTypes = dbContext.Model.GetEntityTypes();
+        var csvData = new List<string>();
 
         foreach (var entityType in entityTypes)
         {
@@ -39,17 +38,19 @@ public class Program
                 .ToList();
 
             var classDefinition = $"public class {className}\n" +
-                                  "{{\n" +
+                                  "{\n" +
                                   string.Join("\n", properties) +
-                                  "\n}}\n";
+                                  "\n}\n";
 
             var entityTypeClrType = entityType.ClrType;
-            var records = dbContext.Set(entityTypeClrType).ToList();
+            var records1 = dbContext.Set<TblPas>().ToList();
+            var records2 = dbContext.Set<TblStal>();
+            var records3 = dbContext.Set<TblVersie>().ToList();
+            var records4 = dbContext.Set<LnkGewassen>().ToList();
 
-            var csvData = new List<string>();
             csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
 
-            foreach (var record in records)
+            foreach (var record in records1)
             {
                 var propertyValues = entityType.GetProperties()
                     .Select(property => GetValueString(record, property.Name))
@@ -57,12 +58,39 @@ public class Program
                 csvData.Add(string.Join(",", propertyValues));
             }
 
-            var csvText = string.Join(Environment.NewLine, csvData);
+            foreach (var record in records2)
+            {
+                var propertyValues = entityType.GetProperties()
+                    .Select(property => GetValueString(record, property.Name))
+                    .ToList();
+                csvData.Add(string.Join(",", propertyValues));
+            }
 
-            string outputFilePath = Path.Combine(outputPath, $"{className}.csv");
-            File.WriteAllText(outputFilePath, csvText);
-            Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
+            foreach (var record in records3)
+            {
+                var propertyValues = entityType.GetProperties()
+                    .Select(property => GetValueString(record, property.Name))
+                    .ToList();
+                csvData.Add(string.Join(",", propertyValues));
+            }
+
+            foreach (var record in records4)
+            {
+                var propertyValues = entityType.GetProperties()
+                    .Select(property => GetValueString(record, property.Name))
+                    .ToList();
+                csvData.Add(string.Join(",", propertyValues));
+            }
+
+            // Add an empty row between data tables
+            csvData.Add(string.Empty);
         }
+
+        var csvText = string.Join(Environment.NewLine, csvData);
+
+        string outputFilePath = Path.Combine(outputPath, "DatabaseClasses.csv");
+        File.WriteAllText(outputFilePath, csvText);
+        Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
     }
 
     private static string GetValueString(object obj, string propertyName)
