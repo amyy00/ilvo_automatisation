@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ilvo_automatisation;
+using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=EMAV;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Replace with your database connection string
+        string connectionString = Constants.connectionString; // Replace with your database connection string
         string outputPath = GetDefaultOutputPath(); // Get the default output path
 
         GenerateClasses(connectionString, outputPath);
