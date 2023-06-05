@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-public class ProgramJarne
+public class Program
 {
     public static void Main(string[] args)
     {
