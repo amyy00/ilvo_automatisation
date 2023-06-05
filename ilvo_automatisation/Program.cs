@@ -1,15 +1,21 @@
-﻿// Verkrijg de lijst met tabellen
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EMAV;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Replace with your database connection string
-        string outputPath = "C:\\Users\\TheWi\\Desktop"; // Replace with your desired output path
+        string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=EMAV;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Replace with your database connection string
+        string outputPath = GetDefaultOutputPath(); // Get the default output path
 
         GenerateClasses(connectionString, outputPath);
+    }
+
+    private static string GetDefaultOutputPath()
+    {
+        string homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string defaultOutputPath = Path.Combine(homeDirectory, "DatabaseClasses");
+        Directory.CreateDirectory(defaultOutputPath);
+        return defaultOutputPath;
     }
 
     private static void GenerateClasses(string connectionString, string outputPath)
@@ -23,7 +29,7 @@ public class Program
 
             var classDefinitions = entityTypes.Select(entityType =>
             {
-                //var tableName = entityType.GetTableName();
+                var tableName = entityType.GetTableName();
                 var className = entityType.Name;
 
                 var properties = entityType.GetProperties()
@@ -40,8 +46,9 @@ public class Program
 
             var outputText = $"using System;\n\nnamespace DatabaseClasses\n{{\n{string.Join("\n", classDefinitions)}}}";
 
-            File.WriteAllText(outputPath, outputText);
-            Console.WriteLine($"Classes generated successfully. Output file: {outputPath}");
+            string outputFilePath = Path.Combine(outputPath, "DatabaseClasses.cs");
+            File.WriteAllText(outputFilePath, outputText);
+            Console.WriteLine($"Classes generated successfully. Output file: {outputFilePath}");
         }
     }
 }
