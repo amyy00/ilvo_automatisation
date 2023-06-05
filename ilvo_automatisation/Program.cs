@@ -1,20 +1,24 @@
-﻿// Verkrijg de lijst met tabellen
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using System.Data.Common;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class Program
+public class ProgramJarne
 {
     public static void Main(string[] args)
     {
-        string connectionString = "<Your_Connection_String>"; // Replace with your database connection string
-        string outputPath = "<Output_Path>"; // Replace with your desired output path
+        string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=EMAV;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Replace with your database connection string
+        string outputPath = GetDefaultOutputPath(); // Get the default output path
 
         GenerateClasses(connectionString, outputPath);
     }
 
-    public static void GenerateClasses(string connectionString, string outputPath)
+    private static string GetDefaultOutputPath()
+    {
+        string homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string defaultOutputPath = Path.Combine(homeDirectory, "DatabaseClasses");
+        Directory.CreateDirectory(defaultOutputPath);
+        return defaultOutputPath;
+    }
+
+    private static void GenerateClasses(string connectionString, string outputPath)
     {
         var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
         optionsBuilder.UseSqlServer(connectionString);
@@ -42,24 +46,9 @@ public class Program
 
             var outputText = $"using System;\n\nnamespace DatabaseClasses\n{{\n{string.Join("\n", classDefinitions)}}}";
 
-            File.WriteAllText(outputPath, outputText);
-            Console.WriteLine($"Classes generated successfully. Output file: {outputPath}");
+            string outputFilePath = Path.Combine(outputPath, "DatabaseClasses.cs");
+            File.WriteAllText(outputFilePath, outputText);
+            Console.WriteLine($"Classes generated successfully. Output file: {outputFilePath}");
         }
-    }
-}
-
-public class DbContextFactory : IDesignTimeDbContextFactory<DbContext>
-{
-    public DbContext CreateDbContext(string[] args)
-    {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("<Your_Connection_String>"));
-
-        return new DbContext(optionsBuilder.Options);
     }
 }
