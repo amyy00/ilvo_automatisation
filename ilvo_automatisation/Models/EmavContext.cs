@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ilvo_automatisation.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ilvo_automatisation.Models;
 
