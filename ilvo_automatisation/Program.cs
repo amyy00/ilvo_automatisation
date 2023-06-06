@@ -14,5 +14,11 @@ public class Program
 
         // Generate classes and CSV files
         GenerateCSV.GenerateFile(dbContext);
+        
+        GenerateMockData generateMockData;
+
+        //To fill the database with mock data
+        //var dataGenerator = new GenerateMockData();
+        //dataGenerator.GenerateData();
     }
 }
