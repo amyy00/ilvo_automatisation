@@ -1,4 +1,5 @@
 ﻿using ilvo_automatisation.Data;
+using ilvo_automatisation.Data.Test;
 using ilvo_automatisation.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +20,10 @@ public class Program
         // Generate classes and CSV files
         GenerateCSV.GenerateFile(dbContext, outputPath);
 
-        ////To fill the database with mock data
-        //GenerateMockData.GenerateData();
+        //To fill the database with mock data
+        GenerateMockData.GenerateData();
+
+        Console.ReadLine();
     }
 
     private static string GetDefaultOutputPath()

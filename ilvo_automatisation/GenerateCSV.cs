@@ -6,6 +6,7 @@ public class GenerateCSV
 {
     public static void GenerateFile(EmavContext dbContext, string outputPath)
     {
+        Console.WriteLine("Generating CSV file...");
         // Get the entity types from the DbContext's model
         var entityTypes = dbContext.Model.GetEntityTypes();
 
@@ -33,6 +34,7 @@ public class GenerateCSV
 
             // Add the class definition to the CSV data
             csvData.Add(className);
+            Console.WriteLine($"add className: {className} to CSV file.");
 
             // Add the headers for the CSV file
             csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
@@ -40,6 +42,7 @@ public class GenerateCSV
             // Retrieve records for each entity type
             var entityTypeClrType = entityType.ClrType;
             //var records = dbContext.Set(entityTypeClrType).ToList();
+            //Console.WriteLine($"adding record {records} to CSV file.");
 
             //// Add the records for each entity type to the CSV data
             //foreach (var record in records)
@@ -64,7 +67,6 @@ public class GenerateCSV
         // Write the CSV text to the output file
         File.WriteAllText(outputFilePath, csvText);
         Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
-        Console.ReadLine();
     }
 
     private static string? GetValueString(object obj, string propertyName)
