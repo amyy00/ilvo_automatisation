@@ -3,6 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
+    //public static void Main(string[] args)
+    //{
+    //    // Instantieer GenerateMockData
+    //    var mockDataGenerator = new GenerateMockData();
+
+    //    // Roep GenerateData aan om mock data te genereren en op te slaan
+    //    mockDataGenerator.GenerateData();
+    //}
     public static void Main(string[] args)
     {
         GenerateMockData generateMockData;

@@ -15,6 +15,7 @@ namespace ilvo_automatisation
         public DbSet<LnkGewassen> LnkGewassen => Set<LnkGewassen>();
         public DbSet<TblPas> TblPas => Set<TblPas>();
         public DbSet<TblVersie> TblVersie => Set<TblVersie>();
+        //public DbSet<LutGewasGroep> LutGewasGroeps => Set<LutGewasGroep>();
 
         public IlvoDbContext(DbContextOptions<IlvoDbContext> options) : base(options)
         {
