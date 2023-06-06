@@ -64,7 +64,6 @@ public class GenerateCSV
         // Write the CSV text to the output file
         File.WriteAllText(outputFilePath, csvText);
         Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
-        Console.ReadLine();
     }
 
     private static string? GetValueString(object obj, string propertyName)
