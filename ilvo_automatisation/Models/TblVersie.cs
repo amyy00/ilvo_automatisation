@@ -57,7 +57,7 @@ public partial class TblVersie
 
     public virtual ICollection<TblParameter> TblParameters { get; set; } = new List<TblParameter>();
 
-    public virtual ICollection<TblPa> TblPas { get; set; } = new List<TblPa>();
+    public virtual ICollection<TblPas> TblPas { get; set; } = new List<TblPas>();
 
     public virtual ICollection<TblRegressieRechte> TblRegressieRechtes { get; set; } = new List<TblRegressieRechte>();
 

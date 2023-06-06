@@ -117,7 +117,7 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<TblGebruiker> TblGebruikers { get; set; }
 
-    public virtual DbSet<TblPa> TblPas { get; set; }
+    public virtual DbSet<TblPas> TblPas { get; set; }
 
     public virtual DbSet<TblPa1> TblPas1 { get; set; }
 
@@ -1474,7 +1474,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.SurName).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<TblPa>(entity =>
+        modelBuilder.Entity<TblPas>(entity =>
         {
             entity.ToTable("tblPAS", tb =>
                 {

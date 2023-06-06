@@ -8,8 +8,11 @@ public class Program
         GenerateMockData generateMockData;
         string connectionString = Constants.connectionString; // Replace with your database connection string
         string outputPath = GetDefaultOutputPath(); // Get the default output path
-        generateMockData = new GenerateMockData();
-        GenerateClasses(connectionString, outputPath);
+        //GenerateClasses(connectionString, outputPath);
+        var dataGenerator = new GenerateMockData();
+
+        // Roep de GenerateData-methode aan via het object
+        dataGenerator.GenerateData();
     }
 
     private static string GetDefaultOutputPath()
@@ -20,14 +23,14 @@ public class Program
         return defaultOutputPath;
     }
 
-    private static void GenerateClasses(string connectionString, string outputPath)
-    {
-        using (var dbContext = IlvoDbContext.CreateDbContext(connectionString))
-        {
-            var classGenerator = new ClassGenerator(dbContext);
-            classGenerator.GenerateClasses(outputPath);
-        }
-    }
+    //private static void GenerateClasses(string connectionString, string outputPath)
+    //{
+    //    using (var dbContext = IlvoDbContext.CreateDbContext(connectionString))
+    //    {
+    //        var classGenerator = new ClassGenerator(dbContext);
+    //        classGenerator.GenerateClasses(outputPath);
+    //    }
+    //}
 
     public static void TriggerAutomatiseren(string[] args)
     {
