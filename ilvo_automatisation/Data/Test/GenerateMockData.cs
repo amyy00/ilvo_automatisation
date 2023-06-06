@@ -8,7 +8,7 @@ public class GenerateMockData
     public static void GenerateData()
     {
         var names = new[] { "apple", "banana", "orange", "strawberry", "kiwi" };
-
+        Console.WriteLine("generating Mock data ....");
         var tblStalData = new Faker<TblStal>()
             .RuleFor(o => o.Id, f => Guid.NewGuid())
             .RuleFor(o => o.Naam, f => f.PickRandom(names))
@@ -84,7 +84,7 @@ public class GenerateMockData
                 context.LnkGewassens.Add(gewassenData);
 
             }
-
+            Console.WriteLine("mock data generated");
             context.SaveChanges();
         }
             
