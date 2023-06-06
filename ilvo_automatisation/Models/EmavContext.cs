@@ -8,12 +8,11 @@ public partial class EmavContext : DbContext
     {
     }
 
-    public EmavContext(DbContextOptions<EmavContext> options)
-        : base(options)
+    public EmavContext(DbContextOptions<EmavContext> options) : base(options)
     {
     }
 
-    public virtual DbSet<AangifteDierStalPa> AangifteDierStalPas { get; set; }
+    public virtual DbSet<AangifteDierStalPas> AangifteDierStalPas { get; set; }
 
     public virtual DbSet<Bemesting> Bemestings { get; set; }
 
@@ -119,7 +118,7 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<TblPas> TblPas { get; set; }
 
-    public virtual DbSet<TblPa1> TblPas1 { get; set; }
+    public virtual DbSet<TblPas1> TblPas1 { get; set; }
 
     public virtual DbSet<TblParameter> TblParameters { get; set; }
 
@@ -142,12 +141,18 @@ public partial class EmavContext : DbContext
     public virtual DbSet<Vlops250mRooster> Vlops250mRoosters { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EMAV;Trusted_Connection=True;TrustServerCertificate=true;");
+    {
+        // Configure database provider, connection string, etc.
+        if (!optionsBuilder.IsConfigured)
+        {
+            string connectionString = Constants.connectionString;
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<AangifteDierStalPa>(entity =>
+        modelBuilder.Entity<AangifteDierStalPas>(entity =>
         {
             entity.ToTable("AANGIFTE_DIER_STAL_PAS");
 
@@ -1499,7 +1504,7 @@ public partial class EmavContext : DbContext
                 .HasConstraintName("FK_tblPAS_tblVersie");
         });
 
-        modelBuilder.Entity<TblPa1>(entity =>
+        modelBuilder.Entity<TblPas1>(entity =>
         {
             entity.HasKey(e => e.HistoryId).HasName("PK__tblPAS__4D7B4ADD774BA6BA");
 
