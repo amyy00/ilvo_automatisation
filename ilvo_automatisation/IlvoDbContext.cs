@@ -1,11 +1,6 @@
-﻿using ilvo_automatisation.Models;
+﻿using ilvo_automatisation;
+using ilvo_automatisation.Models;
 using Microsoft.EntityFrameworkCore;
-using ilvo_automatisation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ilvo_automatisation
 {
@@ -16,9 +11,17 @@ namespace ilvo_automatisation
 
         }
 
-        private DbSet<TblStal> TblStal => Set<TblStal>();
-        private DbSet<LnkGewassen> LnkGewassen => Set<LnkGewassen>();
-        private DbSet<TblPa> TblPas => Set<TblPa>();
-        private DbSet<TblVersie> TblVersie => Set<TblVersie>();
+        public DbSet<TblStal> TblStal => Set<TblStal>();
+        public DbSet<LnkGewassen> LnkGewassen => Set<LnkGewassen>();
+        public DbSet<TblPa> TblPas => Set<TblPa>();
+        public DbSet<TblVersie> TblVersie => Set<TblVersie>();
+
+        public static IlvoDbContext CreateDbContext(string connectionString)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<IlvoDbContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+
+            return new IlvoDbContext(optionsBuilder.Options);
+        }
     }
 }
