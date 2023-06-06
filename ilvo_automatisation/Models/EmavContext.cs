@@ -8,8 +8,7 @@ public partial class EmavContext : DbContext
     {
     }
 
-    public EmavContext(DbContextOptions<EmavContext> options)
-        : base(options)
+    public EmavContext(DbContextOptions<EmavContext> options) : base(options)
     {
     }
 
@@ -142,8 +141,14 @@ public partial class EmavContext : DbContext
     public virtual DbSet<Vlops250mRooster> Vlops250mRoosters { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EMAV;Trusted_Connection=True;TrustServerCertificate=true;");
+    {
+        // Configure database provider, connection string, etc.
+        if (!optionsBuilder.IsConfigured)
+        {
+            string connectionString = Constants.connectionString;
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
