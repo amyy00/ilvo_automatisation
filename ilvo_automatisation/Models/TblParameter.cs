@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ilvo_automatisation.Models;
+﻿namespace ilvo_automatisation.Models;
 
 public partial class TblParameter
 {
