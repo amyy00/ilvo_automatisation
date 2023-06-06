@@ -1,5 +1,6 @@
 ﻿using ilvo_automatisation;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 public class Program
 {
