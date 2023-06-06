@@ -10,10 +10,7 @@ namespace ilvo_automatisation
         {
 
             string connectionString = Constants.connectionString;
-
             string outputPath = Constants.outputPath;
-
-            //GenerateClasses(connectionString, outputPath);
 
             GenerateData();
 
