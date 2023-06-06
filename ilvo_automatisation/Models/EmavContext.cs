@@ -1752,5 +1752,11 @@ public partial class EmavContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
+    internal DbSet<T> Set<T>()
+        where T : class
+    {
+        return Set<T>();
+    }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

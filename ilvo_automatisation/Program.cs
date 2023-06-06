@@ -3,34 +3,38 @@ using ilvo_automatisation.Data.Test;
 using ilvo_automatisation.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ilvo_automatisation;
-
-public class Program
+namespace ilvo_automatisation
 {
-    public static void Main(string[] args)
+    public class Program
     {
-        // Get the default output path
-        string outputPath = GetDefaultOutputPath();
+        public static void Main(string[] args)
+        {
+            // Get the default output path
+            string outputPath = GetDefaultOutputPath();
 
-        string connectionString = Constants.connectionString;
-        
-        // Create the DbContext using the provided connection string
-        using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
+            string connectionString = Constants.connectionString;
 
-        // Generate classes and CSV files
-        GenerateCSV.GenerateFile(dbContext, outputPath);
+            // Create the DbContext using the provided connection string
+            using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
-        //To fill the database with mock data
-        GenerateMockData.GenerateData();
+            // Create an instance of GenerateCSV
+            var generateCSV = new GenerateCSV(dbContext);
 
-        Console.ReadLine();
-    }
+            // Generate CSV file
+            generateCSV.GenerateFile(outputPath);
 
-    private static string GetDefaultOutputPath()
-    {
-        string homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string defaultOutputPath = Path.Combine(homeDirectory, "DatabaseClasses");
-        Directory.CreateDirectory(defaultOutputPath);
-        return defaultOutputPath;
+            //To fill the database with mock data
+            GenerateMockData.GenerateData();
+
+            Console.ReadLine();
+        }
+
+        private static string GetDefaultOutputPath()
+        {
+            string homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string defaultOutputPath = Path.Combine(homeDirectory, "DatabaseClasses");
+            Directory.CreateDirectory(defaultOutputPath);
+            return defaultOutputPath;
+        }
     }
 }
