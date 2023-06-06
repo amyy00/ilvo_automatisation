@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ilvo_automatisation.Models;
 
 public partial class LutGewasGroep
 {
+    [Key]
     public Guid Id { get; set; }
 
     public string Naam { get; set; } = null!;

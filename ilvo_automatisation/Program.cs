@@ -1,15 +1,29 @@
-﻿using ilvo_automatisation;
+﻿using ilvo_automatisation.Data;
+using ilvo_automatisation.Data.Test;
+using ilvo_automatisation.Models;
 using Microsoft.EntityFrameworkCore;
+
+namespace ilvo_automatisation;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        GenerateMockData generateMockData;
-        string connectionString = Constants.connectionString; // Replace with your database connection string
-        string outputPath = GetDefaultOutputPath(); // Get the default output path
-        generateMockData = new GenerateMockData();
-        GenerateClasses(connectionString, outputPath);
+        // Get the default output path
+        string outputPath = GetDefaultOutputPath();
+
+        string connectionString = Constants.connectionString;
+        
+        // Create the DbContext using the provided connection string
+        using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
+
+        // Generate classes and CSV files
+        GenerateCSV.GenerateFile(dbContext, outputPath);
+
+        //To fill the database with mock data
+        GenerateMockData.GenerateData();
+
+        Console.ReadLine();
     }
 
     private static string GetDefaultOutputPath()
@@ -18,39 +32,5 @@ public class Program
         string defaultOutputPath = Path.Combine(homeDirectory, "DatabaseClasses");
         Directory.CreateDirectory(defaultOutputPath);
         return defaultOutputPath;
-    }
-
-    private static void GenerateClasses(string connectionString, string outputPath)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
-
-        using (var dbContext = new DbContext(optionsBuilder.Options))
-        {
-            var entityTypes = dbContext.Model.GetEntityTypes();
-
-            var classDefinitions = entityTypes.Select(entityType =>
-            {
-                var tableName = entityType.GetTableName();
-                var className = entityType.Name;
-
-                var properties = entityType.GetProperties()
-                    .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
-                    .ToList();
-
-                var classDefinition = $"public class {className}\n" +
-                    "{\n" +
-                    string.Join("\n", properties) +
-                    "\n}\n";
-
-                return classDefinition;
-            }).ToList();
-
-            var outputText = $"using System;\n\nnamespace DatabaseClasses\n{{\n{string.Join("\n", classDefinitions)}}}";
-
-            string outputFilePath = Path.Combine(outputPath, "DatabaseClasses.cs");
-            File.WriteAllText(outputFilePath, outputText);
-            Console.WriteLine($"Classes generated successfully. Output file: {outputFilePath}");
-        }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace ilvo_automatisation.Models;
 
-namespace ilvo_automatisation.Models;
-
-public partial class TblPa1
+public partial class TblPas1
 {
     public int HistoryId { get; set; }
 
