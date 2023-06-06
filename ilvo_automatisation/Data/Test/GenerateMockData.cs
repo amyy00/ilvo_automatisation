@@ -32,6 +32,8 @@ namespace ilvo_automatisation
                     .RuleFor(o => o.StalTypeId, f => Guid.NewGuid())
                     .RuleFor(o => o.VersieId, f => Guid.NewGuid());
 
+
+
                 using (var context = new IlvoDbContext())
                 {
                     var stal = tblStalData.Generate();
@@ -39,34 +41,6 @@ namespace ilvo_automatisation
                     context.SaveChanges();
                 }
             }
-            //    var namen = new[] { "apple", "banana", "orange", "strawberry", "kiwi" };
-
-            //    var tblStalData = new Faker<TblStal>()
-            //    //.StrictMode(true)
-            //    .RuleFor(o => o.Id, f => Guid.NewGuid())
-            //   .RuleFor(o => o.Naam, f => f.PickRandom(namen))
-            //   .RuleFor(o => o.Omschrijving, f => f.PickRandom(namen))
-            //   .RuleFor(o => o.FractieVloeibaar, f => f.Random.Number(1, 100))
-            //   .RuleFor(o => o.ReductiePercentage, f => f.Random.Number(1, 100))
-            //   .RuleFor(o => o.MestTypeId, f => Guid.NewGuid())
-            //   .RuleFor(o => o.StalTypeId, f => Guid.NewGuid())
-            //   .RuleFor(o => o.VersieId, f => Guid.NewGuid());
-            //    var stal = tblStalData.Generate();
-            //    Console.WriteLine(stal.Id);
-            //    Console.WriteLine(stal.Naam);
-            //    Console.WriteLine(stal.Omschrijving);
-            //    Console.WriteLine(stal.FractieVloeibaar);
-            //    Console.WriteLine(stal.ReductiePercentage);
-            //    Console.WriteLine(stal.MestTypeId);
-            //    Console.WriteLine(stal.StalTypeId);
-            //    Console.WriteLine(stal.VersieId);
-            //}
-
-            //using (var context = new IlvoDbContext())
-            //{
-            //    context.TblStal.AddRange(tblStalData);
-            //    context.SaveChanges();
-            //}
 
             //var faker = new Faker("nl_BE");
 
