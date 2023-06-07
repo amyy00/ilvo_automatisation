@@ -7,20 +7,6 @@ namespace ilvo_automatisation
     {
         public void GenerateFile(EmavContext dbContext, string outputPath)
         {
-            using (var dbContexts = new EmavContext())
-            {
-                // Execute your SQL query
-                var query = "SELECT * FROM tblPAS";
-                var result = dbContext.TblPas.FromSqlRaw(query);
-
-                // Output the retrieved data
-                foreach (var item in result)
-                {
-                    Console.WriteLine(item.ToString()); // Adjust this based on your entity's properties
-                }
-            }
-
-            Console.ReadLine();
             Console.WriteLine("Generating CSV file...");
 
             // Get the entity types from the DbContext's model
@@ -55,17 +41,17 @@ namespace ilvo_automatisation
                 csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
 
                 // Retrieve records for each entity type
-                var records = GetRecords(dbContext, entityType.ClrType);
+                //var records = GetRecords(dbContext, entityType.ClrType);
 
                 // Add the records for each entity type to the CSV data
-                foreach (var record in records)
-                {
-                    var propertyValues = entityType.GetProperties()
-                        .Select(property => GetValueString(record, property.Name))
-                        .ToList();
+                //foreach (var record in records)
+                //{
+                //    var propertyValues = entityType.GetProperties()
+                //        .Select(property => GetValueString(record, property.Name))
+                //        .ToList();
 
-                    csvData.Add(string.Join(",", propertyValues));
-                }
+                //    csvData.Add(string.Join(",", propertyValues));
+                //}
 
                 // Add an empty row between data tables
                 csvData.Add(string.Empty);
@@ -78,7 +64,6 @@ namespace ilvo_automatisation
             File.WriteAllText(outputFilePath, csvText);
             Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
         }
-
 
         private static string? GetValueString(object obj, string propertyName)
         {
@@ -93,22 +78,33 @@ namespace ilvo_automatisation
 
             return propertyValue.ToString();
         }
+        //private static List<object> GetRecords(EmavContext dbContext, Type entityType)
+        //{
+        //    var dbSet = dbContext.Set(entityType);
+        //    var toListMethod = typeof(Enumerable)
+        //        .GetMethod("ToList")
+        //        .MakeGenericMethod(entityType);
 
-        private static List<object> GetRecords(EmavContext dbContext, Type entityType)
-        {
-            var dbSetMethod = typeof(DbContext)
-                .GetMethod("Set", new[] {typeof(Type)})
-                .MakeGenericMethod(entityType);
+        //    var records = toListMethod?.Invoke(null, new[] {dbSet});
 
-            var dbSet = dbSetMethod?.Invoke(dbContext, null);
+        //    return (List<object>)records;
+        //}
 
-            var toListMethod = typeof(Enumerable)
-                .GetMethod("ToList")
-                .MakeGenericMethod(entityType);
+        //private static List<object> GetRecords2(EmavContext dbContext, Type entityType)
+        //{
+        //    var dbSetMethod = typeof(DbContext)
+        //        .GetMethod("Set", new[] {typeof(Type)})
+        //        .MakeGenericMethod(entityType);
 
-            var records = toListMethod?.Invoke(null, new[] {dbSet});
+        //    var dbSet = dbSetMethod?.Invoke(dbContext, null);
 
-            return (List<object>) records;
-        }
+        //    var toListMethod = typeof(Enumerable)
+        //        .GetMethod("ToList")
+        //        .MakeGenericMethod(entityType);
+
+        //    var records = toListMethod?.Invoke(null, new[] {dbSet});
+
+        //    return (List<object>) records;
+        //}
     }
 }
