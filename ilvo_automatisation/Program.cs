@@ -18,10 +18,10 @@ namespace ilvo_automatisation
             using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
             // Create an instance of GenerateCSV
-            var generateCSV = new GenerateCSV(dbContext);
+            var generateCSV = new GenerateCsv();
 
             // Generate CSV file
-            generateCSV.GenerateFile(outputPath);
+            generateCSV.GenerateFile(dbContext, outputPath);
 
             //To fill the database with mock data
             GenerateMockData.GenerateData();

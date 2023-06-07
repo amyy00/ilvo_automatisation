@@ -1,23 +1,26 @@
 ﻿using ilvo_automatisation.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace ilvo_automatisation
 {
-    public class GenerateCSV
+    public class GenerateCsv
     {
-        private EmavContext dbContext;
-
-        public GenerateCSV(EmavContext dbContext)
+        public void GenerateFile(EmavContext dbContext, string outputPath)
         {
-            this.dbContext = dbContext;
-        }
+            //using (var dbContexts = new EmavContext())
+            //{
+            //    // Execute your SQL query
+            //    var query = "SELECT * FROM tblPAS";
+            //    var result = dbContext.TblPas.FromSqlRaw(query).ToString();
 
-        public void GenerateFile(string outputPath)
-        {
+            //    // Output the retrieved data
+            //    foreach (var item in result)
+            //    {
+            //        Console.WriteLine(item.ToString()); // Adjust this based on your entity's properties
+            //    }
+            //}
+
+            Console.ReadLine();
             Console.WriteLine("Generating CSV file...");
 
             // Get the entity types from the DbContext's model
@@ -33,6 +36,7 @@ namespace ilvo_automatisation
             string outputFilePath = Path.Combine(outputPath, outputFileName);
 
             // Add the data file name above the created rows
+            csvData.Add($"Data File: {outputFileName}");
             csvData.Add(string.Empty);
 
             foreach (var entityType in entityTypes)
@@ -44,16 +48,19 @@ namespace ilvo_automatisation
                     .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
                     .ToList();
 
+                var classDefinition = $"public class {className}\n" +
+                                      "{\n" +
+                                      string.Join("\n", properties) +
+                                      "\n}\n";
+
                 // Add the class definition to the CSV data
-                csvData.Add(className);
-                Console.WriteLine($"add className: {className} to CSV file.");
+                csvData.Add(classDefinition);
 
                 // Add the headers for the CSV file
                 csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
 
                 // Retrieve records for each entity type
-                var entityTypeClrType = entityType.ClrType;
-                var records = GetRecords(entityTypeClrType);
+                var records = GetRecords(dbContext, entityType.ClrType);
 
                 // Add the records for each entity type to the CSV data
                 foreach (var record in records)
@@ -61,9 +68,6 @@ namespace ilvo_automatisation
                     var propertyValues = entityType.GetProperties()
                         .Select(property => GetValueString(record, property.Name))
                         .ToList();
-
-                    // Add the data file name to the row
-                    propertyValues.Insert(0, outputFileName);
 
                     csvData.Add(string.Join(",", propertyValues));
                 }
@@ -80,24 +84,6 @@ namespace ilvo_automatisation
             Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
         }
 
-        private List<object> GetRecords(Type entityType)
-        {
-            //TODO
-            var dbSetMethod = typeof(DbContext)
-                .GetMethod("Set")
-                .MakeGenericMethod(entityType);
-
-            var dbSet = dbSetMethod.Invoke(dbContext, null);
-
-            var toListMethod = typeof(Enumerable)
-                .GetMethod("ToList")
-                .MakeGenericMethod(entityType);
-
-            var records = toListMethod.Invoke(null, new[] { dbSet });
-
-            return (List<object>)records;
-        }
-
 
         private static string? GetValueString(object obj, string propertyName)
         {
@@ -111,6 +97,23 @@ namespace ilvo_automatisation
                 return $"\"{propertyValue}\"";
 
             return propertyValue.ToString();
+        }
+
+        private static List<object> GetRecords(EmavContext dbContext, Type entityType)
+        {
+            var dbSetMethod = typeof(DbContext)
+                .GetMethod("Set", new[] {typeof(Type)})
+                .MakeGenericMethod(entityType);
+
+            var dbSet = dbSetMethod?.Invoke(dbContext, null);
+
+            var toListMethod = typeof(Enumerable)
+                .GetMethod("ToList")
+                .MakeGenericMethod(entityType);
+
+            var records = toListMethod?.Invoke(null, new[] {dbSet});
+
+            return (List<object>) records;
         }
     }
 }
