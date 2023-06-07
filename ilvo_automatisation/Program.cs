@@ -9,23 +9,45 @@ namespace ilvo_automatisation
     {
         public static void Main(string[] args)
         {
-            // Get the default output path
-            string outputPath = GetDefaultOutputPath();
-
             string connectionString = Constants.connectionString;
 
             // Create the DbContext using the provided connection string
             using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
-            // Create an instance of GenerateCSV
-            var generateCSV = new GenerateCsv();
+            // Get the default output path
+            string outputPath = GetDefaultOutputPath();
 
-            // Generate CSV file
-            generateCSV.GenerateFile(dbContext, outputPath);
+            Console.WriteLine("Please enter a command: csv, trigger, mockdata");
+            string input = Console.ReadLine();
 
-            //To fill the database with mock data
-            GenerateMockData.GenerateData();
+            switch (input)
+            {
+                case "csv":
+                    Console.WriteLine("Executing command csv...");
+                    // Create an instance of GenerateCSV
+                    var generateCSV = new GenerateCsv();
 
+                    // Generate CSV file
+                    generateCSV.GenerateFile(dbContext, outputPath);
+                    break;
+
+                case "trigger":
+                    Console.WriteLine("Executing command trigger...");
+                    // Add code for command 2
+                    break;
+
+                case "mockdata":
+                    Console.WriteLine("Executing command mockdata...");
+                    //To fill the database with mock data
+                    GenerateMockData.GenerateData();
+                    break;
+
+                default:
+                    Console.WriteLine("Unknown command.");
+                    break;
+            }
+
+            Console.WriteLine("Program completed"); 
             Console.ReadLine();
         }
 

@@ -7,18 +7,18 @@ namespace ilvo_automatisation
     {
         public void GenerateFile(EmavContext dbContext, string outputPath)
         {
-            //using (var dbContexts = new EmavContext())
-            //{
-            //    // Execute your SQL query
-            //    var query = "SELECT * FROM tblPAS";
-            //    var result = dbContext.TblPas.FromSqlRaw(query).ToString();
+            using (var dbContexts = new EmavContext())
+            {
+                // Execute your SQL query
+                var query = "SELECT * FROM tblPAS";
+                var result = dbContext.TblPas.FromSqlRaw(query);
 
-            //    // Output the retrieved data
-            //    foreach (var item in result)
-            //    {
-            //        Console.WriteLine(item.ToString()); // Adjust this based on your entity's properties
-            //    }
-            //}
+                // Output the retrieved data
+                foreach (var item in result)
+                {
+                    Console.WriteLine(item.ToString()); // Adjust this based on your entity's properties
+                }
+            }
 
             Console.ReadLine();
             Console.WriteLine("Generating CSV file...");
@@ -48,13 +48,8 @@ namespace ilvo_automatisation
                     .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
                     .ToList();
 
-                var classDefinition = $"public class {className}\n" +
-                                      "{\n" +
-                                      string.Join("\n", properties) +
-                                      "\n}\n";
-
                 // Add the class definition to the CSV data
-                csvData.Add(classDefinition);
+                csvData.Add(className);
 
                 // Add the headers for the CSV file
                 csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
