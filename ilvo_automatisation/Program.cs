@@ -9,20 +9,45 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        // Get the default output path
-        string outputPath = GetDefaultOutputPath();
-
         string connectionString = Constants.connectionString;
-        
+
         // Create the DbContext using the provided connection string
         using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
-        // Generate classes and CSV files
-        GenerateCSV.GenerateFile(dbContext, outputPath);
+        // Get the default output path
+        string outputPath = GetDefaultOutputPath();
 
-        //To fill the database with mock data
-        GenerateMockData.GenerateData();
+        Console.WriteLine("Please enter a command: csv, trigger, mockdata");
+        string input = Console.ReadLine();
 
+        switch (input)
+        {
+            case "csv":
+                Console.WriteLine("Executing command csv...");
+                // Create an instance of GenerateCSV
+                //var generateCSV = new GenerateCsv();
+
+                // Generate CSV file
+                //generateCsv.GenerateFile(dbContext, outputPath);
+                break;
+
+            case "trigger":
+                Console.WriteLine("Executing command trigger...");
+                TrackHistory.TestTrackHistory();
+                break;
+
+            case "mockdata":
+                Console.WriteLine("Executing command mockdata...");
+                //To fill the database with mock data
+                GenerateMockData.GenerateData();
+                break;
+
+            default:
+                Console.WriteLine("Unknown command.");
+                break;
+        }
+
+        Console.WriteLine("Program completed");
         Console.ReadLine();
     }
 
