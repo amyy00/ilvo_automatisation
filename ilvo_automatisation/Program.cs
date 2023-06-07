@@ -10,7 +10,7 @@ namespace ilvo_automatisation
         public static void Main(string[] args)
         {
             string connectionString = Constants.connectionString;
-
+            
             // Create the DbContext using the provided connection string
             using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
@@ -18,7 +18,7 @@ namespace ilvo_automatisation
             string outputPath = GetDefaultOutputPath();
 
             Console.WriteLine("Please enter a command: csv, trigger, mockdata");
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
 
             switch (input)
             {
@@ -29,10 +29,12 @@ namespace ilvo_automatisation
 
                     // Generate CSV file
                     generateCSV.GenerateFile(dbContext, outputPath);
+                    Console.WriteLine("Program completed");
                     break;
 
                 case "trigger":
                     Console.WriteLine("Executing command trigger...");
+                    Console.WriteLine("Program completed");
                     // Add code for command 2
                     break;
 
@@ -40,6 +42,7 @@ namespace ilvo_automatisation
                     Console.WriteLine("Executing command mockdata...");
                     //To fill the database with mock data
                     GenerateMockData.GenerateData();
+                    Console.WriteLine("Program completed");
                     break;
 
                 default:
@@ -47,7 +50,6 @@ namespace ilvo_automatisation
                     break;
             }
 
-            Console.WriteLine("Program completed"); 
             Console.ReadLine();
         }
 

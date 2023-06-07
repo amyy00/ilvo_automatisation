@@ -1,4 +1,5 @@
-﻿using ilvo_automatisation.Models;
+﻿using System.Diagnostics;
+using ilvo_automatisation.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ilvo_automatisation
@@ -41,17 +42,17 @@ namespace ilvo_automatisation
                 csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
 
                 // Retrieve records for each entity type
-                //var records = GetRecords(dbContext, entityType.ClrType);
+                var records = GetRecordsFromDbContext(dbContext, entityType.ClrType);
 
                 // Add the records for each entity type to the CSV data
-                //foreach (var record in records)
-                //{
-                //    var propertyValues = entityType.GetProperties()
-                //        .Select(property => GetValueString(record, property.Name))
-                //        .ToList();
+                foreach (var record in records)
+                {
+                    var propertyValues = entityType.GetProperties()
+                        .Select(property => GetValueString(record, property.Name))
+                        .ToList();
 
-                //    csvData.Add(string.Join(",", propertyValues));
-                //}
+                    csvData.Add(string.Join(",", propertyValues));
+                }
 
                 // Add an empty row between data tables
                 csvData.Add(string.Empty);
@@ -78,33 +79,19 @@ namespace ilvo_automatisation
 
             return propertyValue.ToString();
         }
-        //private static List<object> GetRecords(EmavContext dbContext, Type entityType)
-        //{
-        //    var dbSet = dbContext.Set(entityType);
-        //    var toListMethod = typeof(Enumerable)
-        //        .GetMethod("ToList")
-        //        .MakeGenericMethod(entityType);
 
-        //    var records = toListMethod?.Invoke(null, new[] {dbSet});
+        public List<object> GetRecordsFromDbContext(EmavContext dbContext, Type entityType)
+        {
+            var dbSet = dbContext.Set<TblPas>();
 
-        //    return (List<object>)records;
-        //}
+            var toListMethod = typeof(Enumerable)
+                .GetMethod("ToList")
+                .MakeGenericMethod(entityType);
 
-        //private static List<object> GetRecords2(EmavContext dbContext, Type entityType)
-        //{
-        //    var dbSetMethod = typeof(DbContext)
-        //        .GetMethod("Set", new[] {typeof(Type)})
-        //        .MakeGenericMethod(entityType);
+            var records = toListMethod.Invoke(null, new[] { dbSet });
 
-        //    var dbSet = dbSetMethod?.Invoke(dbContext, null);
+            return (List<object>)records;
+        }
 
-        //    var toListMethod = typeof(Enumerable)
-        //        .GetMethod("ToList")
-        //        .MakeGenericMethod(entityType);
-
-        //    var records = toListMethod?.Invoke(null, new[] {dbSet});
-
-        //    return (List<object>) records;
-        //}
     }
 }
