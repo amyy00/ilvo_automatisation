@@ -31,33 +31,35 @@ namespace ilvo_automatisation
             foreach (var entityType in entityTypes)
             {
                 var className = entityType.ClrType.Name;
-
-                // Generate the properties of the class based on entity properties
-                var properties = entityType.GetProperties()
-                    .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
-                    .ToList();
-
-                // Add the class definition to the CSV data
-                csvData.Add(className);
-
-                // Add the headers for the CSV file
-                csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
-
-                // Retrieve records for each entity type
-                var records = GetRecordsFromDbContext(dbContext, entityType.ClrType);
-
-                // Add the records for each entity type to the CSV data
-                foreach (var record in records)
-                {
-                    var propertyValues = entityType.GetProperties()
-                        .Select(property => GetValueString(record, property.Name))
+                if (className != "TblVersie")
+                { 
+                    // Generate the properties of the class based on entity properties
+                    var properties = entityType.GetProperties()
+                        .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
                         .ToList();
 
-                    csvData.Add(string.Join(",", propertyValues));
-                }
+                    // Add the class definition to the CSV data
+                    csvData.Add(className);
 
-                // Add an empty row between data tables
-                csvData.Add(string.Empty);
+                    // Add the headers for the CSV file
+                    csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
+
+                    // Retrieve records for each entity type
+                    var records = GetRecordsFromDbContext(dbContext, entityType.ClrType);
+
+                    // Add the records for each entity type to the CSV data
+                    foreach (var record in records)
+                    {
+                        var propertyValues = entityType.GetProperties()
+                            .Select(property => GetValueString(record, property.Name))
+                            .ToList();
+
+                        csvData.Add(string.Join(",", propertyValues));
+                    }
+
+                    // Add an empty row between data tables
+                    csvData.Add(string.Empty);
+                }
             }
 
             // Create the CSV text by joining the CSV data
@@ -90,8 +92,9 @@ namespace ilvo_automatisation
                 .MakeGenericMethod(entityType);
             
             if (entityType == typeof(TblVersie))
+                
                 Console.WriteLine();
-
+            
             var dbSet = setMethod.Invoke(dbContext, null);
 
             var castMethod = typeof(Queryable)
