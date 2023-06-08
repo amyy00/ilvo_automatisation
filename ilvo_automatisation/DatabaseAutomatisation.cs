@@ -1,88 +1,81 @@
 ﻿using Microsoft.Data.SqlClient;
+using System;
 
-
-namespace ilvo_automatisation;
-
-public class DatabaseAutomatisation
+namespace ilvo_automatisation
 {
-    private const string ConnectionString = "YourConnectionString";
-
-    public void UpdateHistoryTables()
+    public class DatabaseAutomatisation
     {
-        // Connect to the database
-        using (SqlConnection connection = new SqlConnection(ConnectionString))
+        private SqlConnection connection;
+
+        public DatabaseAutomatisation(SqlConnection connection)
         {
-            connection.Open();
+            this.connection = connection;
+        }
 
-            // Check if the history table exists
-            bool isHistoryTableExists = CheckIfTableExists(connection, "TblStal1");
+        public void CreateOrUpdateTriggers()
+        {
+            CreateOrUpdateTrigger("tblStal");
+            CreateOrUpdateTrigger("tblPAS");
+            CreateOrUpdateTrigger("tblVersie");
+            CreateOrUpdateTrigger("lnkGewassen");
+        }
 
-            if (!isHistoryTableExists)
+        private void CreateOrUpdateTrigger(string tableName)
+        {
+            string triggerName = $"tbl{tableName}Trigger_DDL";
+
+            try
             {
-                // Create the history table if it doesn't exist
-                string createHistoryTableQuery = "CREATE TABLE TblStal1 (HistoryId INT IDENTITY(1,1) PRIMARY KEY, Id UNIQUEIDENTIFIER, Naam NVARCHAR(MAX) NOT NULL, Omschrijving NVARCHAR(MAX), FractieVloeibaar FLOAT NOT NULL, ReductiePercentage FLOAT, MestTypeId UNIQUEIDENTIFIER NOT NULL, StalTypeId UNIQUEIDENTIFIER NOT NULL, VersieId UNIQUEIDENTIFIER NOT NULL, UpdatedBy NVARCHAR(MAX), UpdatedOn DATETIME, Status NVARCHAR(MAX))";
+                string createTriggerQuery = $@"
+                IF EXISTS (
+                    SELECT *
+                    FROM sys.triggers
+                    WHERE name = @triggerName
+                )
+                BEGIN
+                    -- Trigger already exists, modify it if needed
+                    -- Update the trigger code here
+                    ALTER TRIGGER {triggerName} ON DATABASE
+                    FOR CREATE_TABLE, ALTER_TABLE, DROP_TABLE
+                    AS
+                    BEGIN
+                        -- Trigger logic here
+                        -- Example: log the DDL changes in a separate table
+                        INSERT INTO DDLLogTable (EventTime, EventType, TableName)
+                        VALUES (GETDATE(), EVENTDATA().value('(/EVENT_INSTANCE/EventType)[1]', 'nvarchar(100)'), EVENTDATA().value('(/EVENT_INSTANCE/ObjectName)[1]', 'nvarchar(100)'))
+                    END
+                END
+                ELSE
+                BEGIN
+                    -- Trigger does not exist, create it
+                    -- Create the trigger code here
+                    DECLARE @createDDLTriggerQuery NVARCHAR(MAX) = N'
+                    CREATE TRIGGER ' + QUOTENAME(@triggerName) + '
+                    ON DATABASE
+                    FOR CREATE_TABLE, ALTER_TABLE, DROP_TABLE
+                    AS
+                    BEGIN
+                        -- Trigger logic here
+                        -- Example: log the DDL changes in a separate table
+                        INSERT INTO DDLLogTable (EventTime, EventType, TableName)
+                        VALUES (GETDATE(), EVENTDATA().value(''(/EVENT_INSTANCE/EventType)[1]'', ''nvarchar(100)''), EVENTDATA().value(''(/EVENT_INSTANCE/ObjectName)[1]'', ''nvarchar(100)''))
+                    END'
 
-                using (SqlCommand command = new SqlCommand(createHistoryTableQuery, connection))
+                    EXEC sp_executesql @createDDLTriggerQuery, N'@triggerName NVARCHAR(100)', @triggerName = @triggerName
+                END";
+
+                using (SqlCommand command = new SqlCommand(createTriggerQuery, connection))
                 {
+                    command.Parameters.AddWithValue("@triggerName", triggerName);
                     command.ExecuteNonQuery();
                 }
+
+                Console.WriteLine($"Trigger {triggerName} created or updated successfully!");
             }
-
-            // Get the differences between the current and history tables
-            var tableDifferences = GetTableDifferences(connection, "TblStal", "TblStal1");
-
-            // Generate and execute SQL queries to update the history table
-            foreach (var difference in tableDifferences)
+            catch (Exception ex)
             {
-                string updateQuery = $"UPDATE TblStal1 SET {difference.ColumnName} = (SELECT {difference.ColumnName} FROM TblStal WHERE Id = TblStal1.Id)";
-
-                using (SqlCommand command = new SqlCommand(updateQuery, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
+                Console.WriteLine($"Error creating or updating trigger {triggerName}: {ex.Message}");
             }
-
-            // Disconnect from the database
-            connection.Close();
-        }
-    }
-
-    private bool CheckIfTableExists(SqlConnection connection, string tableName)
-    {
-        string query = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableName}'";
-
-        using (SqlCommand command = new SqlCommand(query, connection))
-        {
-            int count = Convert.ToInt32(command.ExecuteScalar());
-            return count > 0;
-        }
-    }
-
-    private class TableDifference
-    {
-        public string ColumnName { get; set; }
-    }
-
-    private List<TableDifference> GetTableDifferences(SqlConnection connection, string tableName1, string tableName2)
-    {
-        string query = $"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName1}' AND COLUMN_NAME NOT IN (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName2}')";
-
-        using (SqlCommand command = new SqlCommand(query, connection))
-        using (SqlDataReader reader = command.ExecuteReader())
-        {
-            List<TableDifference> differences = new List<TableDifference>();
-
-            while (reader.Read())
-            {
-                TableDifference difference = new TableDifference
-                {
-                    ColumnName = reader.GetString(0)
-                };
-
-                differences.Add(difference);
-            }
-
-            return differences;
         }
     }
 }
