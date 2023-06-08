@@ -3,7 +3,7 @@ using ilvo_automatisation.Models;
 
 namespace ilvo_automatisation.Data.Test;
 
-public abstract class GenerateMockData
+public class GenerateMockData
 {
     public static void GenerateData()
     {
@@ -19,7 +19,7 @@ public abstract class GenerateMockData
             .RuleFor(o => o.StalTypeId, f => Guid.NewGuid())
             .RuleFor(o => o.VersieId, f => Guid.NewGuid());
 
-        var tblPasData = new Faker<TblPas>()
+        var tblPasData = new Faker<tblPAS>()
             .RuleFor(p => p.Id, f => f.Random.Guid())
             .RuleFor(p => p.Naam, f => f.PickRandom(names))
             .RuleFor(p => p.ReductiePercentage, f => f.Random.Double(0, 100))
