@@ -77,7 +77,6 @@ public abstract class Program
                 Console.WriteLine("Closing program...");
                 Console.ReadLine();
                 goto End;
-                break;
 
             default:
                 Console.WriteLine("Unknown command.");
