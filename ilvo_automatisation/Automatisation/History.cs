@@ -51,10 +51,4 @@ public class History
             // Display error message if an exception occurs during table creation
             Console.WriteLine($"Error creating history table: {ex.Message}");
         }
-    }
-
-    internal static void CreateHistoryTables(object clrType)
-    {
-        throw new NotImplementedException();
-    }
 }
