@@ -1,8 +1,11 @@
 ﻿using ilvo_automatisation.Data;
 using ilvo_automatisation.Data.Test;
 using ilvo_automatisation.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace ilvo_automatisation
 {
@@ -19,8 +22,8 @@ namespace ilvo_automatisation
             // Get the default output path
             string outputPath = GetDefaultOutputPath();
 
-            Begin: ;
-            Console.WriteLine("Please enter a command: csv, trigger, mock data, exit"); 
+        Begin:
+            Console.WriteLine("Please enter a command: csv, trigger, mock data, automate trigger, exit");
             string? input = Console.ReadLine();
 
             switch (input)
@@ -49,18 +52,29 @@ namespace ilvo_automatisation
                     Console.WriteLine("Program completed");
                     break;
 
+                case "automate trigger":
+                    Console.WriteLine("Executing command automate trigger");
+                    var entityTypes = dbContext.Model.GetEntityTypes();
+                    foreach (var entityType in entityTypes)
+                    {
+                        DatabaseAutomatisation.AutomateTriggers(entityType.ClrType);
+                    }
+                    Console.WriteLine("Program completed");
+                    break;
+
                 case "exit":
                     Console.WriteLine("Closing program...");
                     Console.ReadLine();
                     goto End;
                     break;
 
+
                 default:
                     Console.WriteLine("Unknown command.");
                     break;
             }
             goto Begin;
-            End:;
+        End:;
         }
 
         private static string GetDefaultOutputPath()
