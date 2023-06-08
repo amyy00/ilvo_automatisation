@@ -67,8 +67,6 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<LnkGewassen> LnkGewassen { get; set; }
 
-    public virtual DbSet<LnkGewassen1> LnkGewassen1 { get; set; }
-
     public virtual DbSet<LnkKunstmest> LnkKunstmest { get; set; }
 
     public virtual DbSet<LnkKunstmestGroepStreek> LnkKunstmestGroepStreek { get; set; }
@@ -119,8 +117,6 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<TblPas> TblPas { get; set; }
 
-    public virtual DbSet<TblPas1> TblPas1 { get; set; }
-
     public virtual DbSet<TblParameter> TblParameter { get; set; }
 
     public virtual DbSet<TblRegressie> TblRegressie { get; set; }
@@ -129,11 +125,7 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<TblStal> TblStal { get; set; }
 
-    public virtual DbSet<TblStal1> TblStal1 { get; set; }
-
     public virtual DbSet<TblVersie> TblVersie { get; set; }
-
-    public virtual DbSet<TblVersie1> TblVersie1 { get; set; }
 
     public virtual DbSet<VervoerMad> VervoerMad { get; set; }
 
@@ -851,23 +843,6 @@ public partial class EmavContext : DbContext
                 .HasConstraintName("FK_lnkGewassen_tblVersie");
         });
 
-        modelBuilder.Entity<LnkGewassen1>(entity =>
-        {
-            entity.HasKey(e => e.HistoryId).HasName("PK__lnkGewas__4D7B4ADDBF27A461");
-
-            entity.ToTable("lnkGewassen", "history");
-
-            entity.Property(e => e.HistoryId).HasColumnName("HistoryID");
-            entity.Property(e => e.GewasGroepId).HasColumnName("GewasGroepID");
-            entity.Property(e => e.GewasGroepOogstrestId).HasColumnName("GewasGroepOogstrestID");
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.OmsHoofdTeelt).HasMaxLength(100);
-            entity.Property(e => e.Status).HasMaxLength(30);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
-            entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-            entity.Property(e => e.VersieId).HasColumnName("VersieID");
-        });
-
         modelBuilder.Entity<LnkKunstmest>(entity =>
         {
             entity.ToTable("lnkKunstmest");
@@ -1505,26 +1480,6 @@ public partial class EmavContext : DbContext
                 .HasConstraintName("FK_tblPAS_tblVersie");
         });
 
-        modelBuilder.Entity<TblPas1>(entity =>
-        {
-            entity.HasKey(e => e.HistoryId).HasName("PK__tblPAS__4D7B4ADD774BA6BA");
-
-            entity.ToTable("tblPAS", "history");
-
-            entity.Property(e => e.HistoryId).HasColumnName("HistoryID");
-            entity.Property(e => e.Efnh3traditioneel).HasColumnName("EFNH3Traditioneel");
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Naam).HasMaxLength(50);
-            entity.Property(e => e.Passtal).HasColumnName("PASStal");
-            entity.Property(e => e.Pasvoeding).HasColumnName("PASVoeding");
-            entity.Property(e => e.Pasweide).HasColumnName("PASWeide");
-            entity.Property(e => e.Staltype).HasMaxLength(10);
-            entity.Property(e => e.Status).HasMaxLength(30);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
-            entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-            entity.Property(e => e.VersieId).HasColumnName("VersieID");
-        });
-
         modelBuilder.Entity<TblParameter>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_lutParameters");
@@ -1628,24 +1583,6 @@ public partial class EmavContext : DbContext
                 .HasConstraintName("FK_tblStal_tblVersie");
         });
 
-        modelBuilder.Entity<TblStal1>(entity =>
-        {
-            entity.HasKey(e => e.HistoryId).HasName("PK__tblStal__4D7B4ADDB242CA63");
-
-            entity.ToTable("tblStal", "history");
-
-            entity.Property(e => e.HistoryId).HasColumnName("HistoryID");
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.MestTypeId).HasColumnName("MestTypeID");
-            entity.Property(e => e.Naam).HasMaxLength(100);
-            entity.Property(e => e.Omschrijving).HasMaxLength(250);
-            entity.Property(e => e.StalTypeId).HasColumnName("StalTypeID");
-            entity.Property(e => e.Status).HasMaxLength(30);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
-            entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-            entity.Property(e => e.VersieId).HasColumnName("VersieID");
-        });
-
         modelBuilder.Entity<TblVersie>(entity =>
         {
             entity.ToTable("tblVersie", tb =>
@@ -1664,21 +1601,6 @@ public partial class EmavContext : DbContext
                 .HasForeignKey(d => d.GebruikerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblVersie_tblGebruiker");
-        });
-
-        modelBuilder.Entity<TblVersie1>(entity =>
-        {
-            entity.HasKey(e => e.HistoryId).HasName("PK__tblVersi__4D7B4ADDA86FD592");
-
-            entity.ToTable("tblVersie", "history");
-
-            entity.Property(e => e.HistoryId).HasColumnName("HistoryID");
-            entity.Property(e => e.GebruikerId).HasColumnName("GebruikerID");
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Naam).HasMaxLength(50);
-            entity.Property(e => e.Status).HasMaxLength(30);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(128);
-            entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<VervoerMad>(entity =>

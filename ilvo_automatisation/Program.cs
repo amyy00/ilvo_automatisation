@@ -62,6 +62,15 @@ namespace ilvo_automatisation
                     }
                     Console.WriteLine("Program completed");
                     break;
+                case "2":
+                    Console.WriteLine("Executing command trigger...");
+                    var HistoryEntitytypes = dbContext.Model.GetEntityTypes();
+                    foreach (var HistoryEntitytype in HistoryEntitytypes)
+                    {
+                        History.CreateHistoryTables(HistoryEntitytype.ClrType);
+                    }
+                    Console.WriteLine("Program completed");
+                    break;
 
                 case "exit":
                     Console.WriteLine("Closing program...");
