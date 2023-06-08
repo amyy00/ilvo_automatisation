@@ -8,9 +8,9 @@ public partial class LutKunstmestGroep
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<LnkKunstmestGroepStreek> LnkKunstmestGroepStreeks { get; set; } = new List<LnkKunstmestGroepStreek>();
+    public virtual ICollection<LnkKunstmestGroepStreek> LnkKunstmestGroepStreek { get; set; } = new List<LnkKunstmestGroepStreek>();
 
-    public virtual ICollection<LnkKunstmest> LnkKunstmests { get; set; } = new List<LnkKunstmest>();
+    public virtual ICollection<LnkKunstmest> LnkKunstmest { get; set; } = new List<LnkKunstmest>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }

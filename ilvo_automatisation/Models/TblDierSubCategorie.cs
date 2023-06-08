@@ -16,13 +16,13 @@ public partial class TblDierSubCategorie
 
     public virtual LutDierCategorie DierCategorie { get; set; } = null!;
 
-    public virtual ICollection<LnkStalDierSubCategorie> LnkStalDierSubCategories { get; set; } = new List<LnkStalDierSubCategorie>();
+    public virtual ICollection<LnkStalDierSubCategorie> LnkStalDierSubCategorie { get; set; } = new List<LnkStalDierSubCategorie>();
 
-    public virtual ICollection<TblConvenant> TblConvenants { get; set; } = new List<TblConvenant>();
+    public virtual ICollection<TblConvenant> TblConvenant { get; set; } = new List<TblConvenant>();
 
-    public virtual ICollection<TblRegressieRechte> TblRegressieRechtes { get; set; } = new List<TblRegressieRechte>();
+    public virtual ICollection<TblRegressieRechte> TblRegressieRechte { get; set; } = new List<TblRegressieRechte>();
 
-    public virtual ICollection<TblRegressie> TblRegressies { get; set; } = new List<TblRegressie>();
+    public virtual ICollection<TblRegressie> TblRegressie { get; set; } = new List<TblRegressie>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Diagnostics;
-using System.Reflection;
-using ilvo_automatisation.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using ilvo_automatisation.Models;
 
 namespace ilvo_automatisation
 {

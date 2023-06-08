@@ -1,4 +1,5 @@
-﻿using ilvo_automatisation.Data;
+﻿using ilvo_automatisation.Automatisation;
+using ilvo_automatisation.Data;
 using ilvo_automatisation.Data.Test;
 using ilvo_automatisation.Models;
 using Microsoft.Data.SqlClient;
@@ -41,7 +42,7 @@ namespace ilvo_automatisation
                 case "trigger":
                     Console.WriteLine("Executing command trigger...");
                     //TODO add comments
-                    TrackHistory.TestTrackHistory();
+                    //TrackHistory.TestTrackHistory();
                     Console.WriteLine("Program completed");
                     break;
 
@@ -52,12 +53,12 @@ namespace ilvo_automatisation
                     Console.WriteLine("Program completed");
                     break;
 
-                case "automate trigger":
+                case "1":
                     Console.WriteLine("Executing command automate trigger");
                     var entityTypes = dbContext.Model.GetEntityTypes();
                     foreach (var entityType in entityTypes)
                     {
-                        DatabaseAutomatisation.AutomateTriggers(entityType.ClrType);
+                        Triggers.AutomateTriggers(entityType.ClrType);
                     }
                     Console.WriteLine("Program completed");
                     break;

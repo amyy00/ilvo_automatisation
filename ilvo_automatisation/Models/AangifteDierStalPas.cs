@@ -1,5 +1,9 @@
-﻿namespace ilvo_automatisation.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace ilvo_automatisation.Models;
+
+// TODO: AANGIFTE_DIER_STAL_PAS?
+[Table("AANGIFTE_DIER_STAL_PAS")]
 public partial class AangifteDierStalPas
 {
     public long Id { get; set; }

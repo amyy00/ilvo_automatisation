@@ -10,11 +10,11 @@ public partial class LutDierCategorie
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<LnkMestDierPlaat> LnkMestDierPlaats { get; set; } = new List<LnkMestDierPlaat>();
+    public virtual ICollection<LnkMestDierPlaat> LnkMestDierPlaat { get; set; } = new List<LnkMestDierPlaat>();
 
-    public virtual ICollection<LnkMestToedieningsEmissy> LnkMestToedieningsEmissies { get; set; } = new List<LnkMestToedieningsEmissy>();
+    public virtual ICollection<LnkMestToedieningsEmissy> LnkMestToedieningsEmissie { get; set; } = new List<LnkMestToedieningsEmissy>();
 
-    public virtual ICollection<TblDierSubCategorie> TblDierSubCategories { get; set; } = new List<TblDierSubCategorie>();
+    public virtual ICollection<TblDierSubCategorie> TblDierSubCategorie { get; set; } = new List<TblDierSubCategorie>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }

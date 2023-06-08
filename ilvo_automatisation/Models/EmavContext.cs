@@ -15,129 +15,129 @@ public partial class EmavContext : DbContext
 
     public virtual DbSet<AangifteDierStalPas> AangifteDierStalPas { get; set; }
 
-    public virtual DbSet<Bemesting> Bemestings { get; set; }
+    public virtual DbSet<Bemesting> Bemesting { get; set; }
 
-    public virtual DbSet<BuTransportVracht> BuTransportVrachts { get; set; }
+    public virtual DbSet<BuTransportVracht> BuTransportVracht { get; set; }
 
-    public virtual DbSet<BuTransportVrachtEff> BuTransportVrachtEffs { get; set; }
+    public virtual DbSet<BuTransportVrachtEff> BuTransportVrachtEff { get; set; }
 
-    public virtual DbSet<BuiVlaOpslverschil> BuiVlaOpslverschils { get; set; }
+    public virtual DbSet<BuiVlaOpslverschil> BuiVlaOpslverschil { get; set; }
 
-    public virtual DbSet<Burenregelingen> Burenregelingens { get; set; }
+    public virtual DbSet<Burenregelingen> Burenregelingen { get; set; }
 
-    public virtual DbSet<BurenregelingenEff> BurenregelingenEffs { get; set; }
+    public virtual DbSet<BurenregelingenEff> BurenregelingenEff { get; set; }
 
-    public virtual DbSet<CoSlib> CoSlibs { get; set; }
+    public virtual DbSet<CoSlib> CoSlib { get; set; }
 
-    public virtual DbSet<DierProd> DierProds { get; set; }
+    public virtual DbSet<DierProd> DierProd { get; set; }
 
-    public virtual DbSet<EvoaAanbieder> EvoaAanbieders { get; set; }
+    public virtual DbSet<EvoaAanbieder> EvoaAanbieder { get; set; }
 
-    public virtual DbSet<Exploitatie> Exploitaties { get; set; }
+    public virtual DbSet<Exploitatie> Exploitatie { get; set; }
 
-    public virtual DbSet<GebruikKm> GebruikKms { get; set; }
+    public virtual DbSet<GebruikKm> GebruikKm { get; set; }
 
-    public virtual DbSet<GeoEmissieGemeente> GeoEmissieGemeentes { get; set; }
+    public virtual DbSet<GeoEmissieGemeente> GeoEmissieGemeente { get; set; }
 
-    public virtual DbSet<GeoEmissieGemeente2019> GeoEmissieGemeente2019s { get; set; }
+    public virtual DbSet<GeoEmissieGemeente2019> GeoEmissieGemeente2019 { get; set; }
 
-    public virtual DbSet<GeoEmissieMestverwerking> GeoEmissieMestverwerkings { get; set; }
+    public virtual DbSet<GeoEmissieMestverwerking> GeoEmissieMestverwerking { get; set; }
 
-    public virtual DbSet<GeoEmissieVlops1000> GeoEmissieVlops1000s { get; set; }
+    public virtual DbSet<GeoEmissieVlops1000> GeoEmissieVlops1000 { get; set; }
 
-    public virtual DbSet<GeoEmissieVlops250> GeoEmissieVlops250s { get; set; }
+    public virtual DbSet<GeoEmissieVlops250> GeoEmissieVlops250 { get; set; }
 
-    public virtual DbSet<GeoExploitatie> GeoExploitaties { get; set; }
+    public virtual DbSet<GeoExploitatie> GeoExploitatie { get; set; }
 
-    public virtual DbSet<GeoMestverwerking> GeoMestverwerkings { get; set; }
+    public virtual DbSet<GeoMestverwerking> GeoMestverwerking { get; set; }
 
-    public virtual DbSet<GeoOpslag> GeoOpslags { get; set; }
+    public virtual DbSet<GeoOpslag> GeoOpslag { get; set; }
 
-    public virtual DbSet<GeoProvincie> GeoProvincies { get; set; }
+    public virtual DbSet<GeoProvincie> GeoProvincie { get; set; }
 
-    public virtual DbSet<GeoStal> GeoStals { get; set; }
+    public virtual DbSet<GeoStal> GeoStal { get; set; }
 
-    public virtual DbSet<GeoUitrijden> GeoUitrijdens { get; set; }
+    public virtual DbSet<GeoUitrijden> GeoUitrijden { get; set; }
 
-    public virtual DbSet<GeoWeide> GeoWeides { get; set; }
+    public virtual DbSet<GeoWeide> GeoWeide { get; set; }
 
-    public virtual DbSet<GeometryColumn> GeometryColumns { get; set; }
+    public virtual DbSet<GeometryColumn> GeometryColumn { get; set; }
 
-    public virtual DbSet<IdentExploitatie> IdentExploitaties { get; set; }
+    public virtual DbSet<IdentExploitatie> IdentExploitatie { get; set; }
 
-    public virtual DbSet<LnkGewassen> LnkGewassens { get; set; }
+    public virtual DbSet<LnkGewassen> LnkGewassen { get; set; }
 
-    public virtual DbSet<LnkGewassen1> LnkGewassens1 { get; set; }
+    public virtual DbSet<LnkGewassen1> LnkGewassen1 { get; set; }
 
-    public virtual DbSet<LnkKunstmest> LnkKunstmests { get; set; }
+    public virtual DbSet<LnkKunstmest> LnkKunstmest { get; set; }
 
-    public virtual DbSet<LnkKunstmestGroepStreek> LnkKunstmestGroepStreeks { get; set; }
+    public virtual DbSet<LnkKunstmestGroepStreek> LnkKunstmestGroepStreek { get; set; }
 
-    public virtual DbSet<LnkMestDierPlaat> LnkMestDierPlaats { get; set; }
+    public virtual DbSet<LnkMestDierPlaat> LnkMestDierPlaat { get; set; }
 
-    public virtual DbSet<LnkMestTechniekPlaat> LnkMestTechniekPlaats { get; set; }
+    public virtual DbSet<LnkMestTechniekPlaat> LnkMestTechniekPlaat { get; set; }
 
-    public virtual DbSet<LnkMestToedieningsEmissy> LnkMestToedieningsEmissies { get; set; }
+    public virtual DbSet<LnkMestToedieningsEmissy> LnkMestToedieningsEmissie { get; set; }
 
-    public virtual DbSet<LnkStalDierSubCategorie> LnkStalDierSubCategories { get; set; }
+    public virtual DbSet<LnkStalDierSubCategorie> LnkStalDierSubCategorie { get; set; }
 
-    public virtual DbSet<LutCheckType> LutCheckTypes { get; set; }
+    public virtual DbSet<LutCheckType> LutCheckType { get; set; }
 
-    public virtual DbSet<LutDierCategorie> LutDierCategories { get; set; }
+    public virtual DbSet<LutDierCategorie> LutDierCategorie { get; set; }
 
-    public virtual DbSet<LutGewasGroep> LutGewasGroeps { get; set; }
+    public virtual DbSet<LutGewasGroep> LutGewasGroep { get; set; }
 
-    public virtual DbSet<LutKunstmestGroep> LutKunstmestGroeps { get; set; }
+    public virtual DbSet<LutKunstmestGroep> LutKunstmestGroep { get; set; }
 
-    public virtual DbSet<LutLandbouwStreek> LutLandbouwStreeks { get; set; }
+    public virtual DbSet<LutLandbouwStreek> LutLandbouwStreek { get; set; }
 
-    public virtual DbSet<LutMestType> LutMestTypes { get; set; }
+    public virtual DbSet<LutMestType> LutMestType { get; set; }
 
-    public virtual DbSet<LutMestverwerkingsTechniek> LutMestverwerkingsTechnieks { get; set; }
+    public virtual DbSet<LutMestverwerkingsTechniek> LutMestverwerkingsTechniek { get; set; }
 
-    public virtual DbSet<LutStalType> LutStalTypes { get; set; }
+    public virtual DbSet<LutStalType> LutStalType { get; set; }
 
-    public virtual DbSet<LutToedieningsPlaat> LutToedieningsPlaats { get; set; }
+    public virtual DbSet<LutToedieningsPlaat> LutToedieningsPlaat { get; set; }
 
-    public virtual DbSet<LutToedieningsTechniek> LutToedieningsTechnieks { get; set; }
+    public virtual DbSet<LutToedieningsTechniek> LutToedieningsTechniek { get; set; }
 
-    public virtual DbSet<MvwUitbatingActiviteit> MvwUitbatingActiviteits { get; set; }
+    public virtual DbSet<MvwUitbatingActiviteit> MvwUitbatingActiviteit { get; set; }
 
-    public virtual DbSet<MvwUitbatingAdressen> MvwUitbatingAdressens { get; set; }
+    public virtual DbSet<MvwUitbatingAdressen> MvwUitbatingAdressen { get; set; }
 
-    public virtual DbSet<SpatialRefSy> SpatialRefSys { get; set; }
+    public virtual DbSet<SpatialRefSy> SpatialRefSy { get; set; }
 
-    public virtual DbSet<Stallen> Stallens { get; set; }
+    public virtual DbSet<Stallen> Stallen { get; set; }
 
-    public virtual DbSet<TblCheck> TblChecks { get; set; }
+    public virtual DbSet<TblCheck> TblCheck { get; set; }
 
-    public virtual DbSet<TblConvenant> TblConvenants { get; set; }
+    public virtual DbSet<TblConvenant> TblConvenant { get; set; }
 
-    public virtual DbSet<TblDierSubCategorie> TblDierSubCategories { get; set; }
+    public virtual DbSet<TblDierSubCategorie> TblDierSubCategorie { get; set; }
 
-    public virtual DbSet<TblGebruiker> TblGebruikers { get; set; }
+    public virtual DbSet<TblGebruiker> TblGebruiker { get; set; }
 
     public virtual DbSet<TblPas> TblPas { get; set; }
 
     public virtual DbSet<TblPas1> TblPas1 { get; set; }
 
-    public virtual DbSet<TblParameter> TblParameters { get; set; }
+    public virtual DbSet<TblParameter> TblParameter { get; set; }
 
-    public virtual DbSet<TblRegressie> TblRegressies { get; set; }
+    public virtual DbSet<TblRegressie> TblRegressie { get; set; }
 
-    public virtual DbSet<TblRegressieRechte> TblRegressieRechtes { get; set; }
+    public virtual DbSet<TblRegressieRechte> TblRegressieRechte { get; set; }
 
-    public virtual DbSet<TblStal> TblStals { get; set; }
+    public virtual DbSet<TblStal> TblStal { get; set; }
 
-    public virtual DbSet<TblStal1> TblStals1 { get; set; }
+    public virtual DbSet<TblStal1> TblStal1 { get; set; }
 
-    public virtual DbSet<TblVersie> TblVersies { get; set; }
+    public virtual DbSet<TblVersie> TblVersie { get; set; }
 
-    public virtual DbSet<TblVersie1> TblVersies1 { get; set; }
+    public virtual DbSet<TblVersie1> TblVersie1 { get; set; }
 
-    public virtual DbSet<VervoerMad> VervoerMads { get; set; }
+    public virtual DbSet<VervoerMad> VervoerMad { get; set; }
 
-    public virtual DbSet<Vlops1000mRooster> Vlops1000mRoosters { get; set; }
+    public virtual DbSet<Vlops1000mRooster> Vlops1000mRooster { get; set; }
 
     public virtual DbSet<Vlops250mRooster> Vlops250mRoosters { get; set; }
 
@@ -840,12 +840,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.OmsHoofdTeelt).HasMaxLength(100);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.GewasGroep).WithMany(p => p.LnkGewassens)
+            entity.HasOne(d => d.GewasGroep).WithMany(p => p.LnkGewassen)
                 .HasForeignKey(d => d.GewasGroepId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkGewassen_lutGewasGroep");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkGewassens)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkGewassen)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkGewassen_tblVersie");
@@ -880,12 +880,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.KunstmestGroepId).HasColumnName("KunstmestGroepID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.KunstmestGroep).WithMany(p => p.LnkKunstmests)
+            entity.HasOne(d => d.KunstmestGroep).WithMany(p => p.LnkKunstmest)
                 .HasForeignKey(d => d.KunstmestGroepId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkKunstmest_tblKunstmestGroep");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkKunstmests)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkKunstmest)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkKunstmest_tblVersie");
@@ -905,17 +905,17 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.LandbouwStreekId).HasColumnName("LandbouwStreekID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.KunstmestGroep).WithMany(p => p.LnkKunstmestGroepStreeks)
+            entity.HasOne(d => d.KunstmestGroep).WithMany(p => p.LnkKunstmestGroepStreek)
                 .HasForeignKey(d => d.KunstmestGroepId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkKunstmestGroepStreek_lutKunstmestGroep");
 
-            entity.HasOne(d => d.LandbouwStreek).WithMany(p => p.LnkKunstmestGroepStreeks)
+            entity.HasOne(d => d.LandbouwStreek).WithMany(p => p.LnkKunstmestGroepStreek)
                 .HasForeignKey(d => d.LandbouwStreekId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkKunstmestGroepStreek_lutLandbouwstreek");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkKunstmestGroepStreeks)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkKunstmestGroepStreek)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkKunstmestGroepStreek_tblVersie");
@@ -935,22 +935,22 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.ToedieningsPlaatsId).HasColumnName("ToedieningsPlaatsID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierCategorie).WithMany(p => p.LnkMestDierPlaats)
+            entity.HasOne(d => d.DierCategorie).WithMany(p => p.LnkMestDierPlaat)
                 .HasForeignKey(d => d.DierCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestDierPlaats_lutDierCategorie");
 
-            entity.HasOne(d => d.MestType).WithMany(p => p.LnkMestDierPlaats)
+            entity.HasOne(d => d.MestType).WithMany(p => p.LnkMestDierPlaat)
                 .HasForeignKey(d => d.MestTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestDierPlaats_lutMestType");
 
-            entity.HasOne(d => d.ToedieningsPlaats).WithMany(p => p.LnkMestDierPlaats)
+            entity.HasOne(d => d.ToedieningsPlaats).WithMany(p => p.LnkMestDierPlaat)
                 .HasForeignKey(d => d.ToedieningsPlaatsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestDierPlaats_lutToedieningsPlaats");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkMestDierPlaats)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkMestDierPlaat)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestDierPlaats_tblVersie");
@@ -973,19 +973,19 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.ToedieningsTechniekId).HasColumnName("ToedieningsTechniekID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.MestType).WithMany(p => p.LnkMestTechniekPlaats)
+            entity.HasOne(d => d.MestType).WithMany(p => p.LnkMestTechniekPlaat)
                 .HasForeignKey(d => d.MestTypeId)
                 .HasConstraintName("FK_lnkMestTechniekPlaats_lutMestType");
 
-            entity.HasOne(d => d.ToedieningsPlaats).WithMany(p => p.LnkMestTechniekPlaats)
+            entity.HasOne(d => d.ToedieningsPlaats).WithMany(p => p.LnkMestTechniekPlaat)
                 .HasForeignKey(d => d.ToedieningsPlaatsId)
                 .HasConstraintName("FK_lnkMestTechniekPlaats_lutToedieningsPlaats");
 
-            entity.HasOne(d => d.ToedieningsTechniek).WithMany(p => p.LnkMestTechniekPlaats)
+            entity.HasOne(d => d.ToedieningsTechniek).WithMany(p => p.LnkMestTechniekPlaat)
                 .HasForeignKey(d => d.ToedieningsTechniekId)
                 .HasConstraintName("FK_lnkMestTechniekPlaats_lutToedieningsTechniek");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkMestTechniekPlaats)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkMestTechniekPlaat)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestTechniekPlaats_tblVersie");
@@ -1007,17 +1007,17 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.MinNfractie).HasColumnName("MinNFractie");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierCategorie).WithMany(p => p.LnkMestToedieningsEmissies)
+            entity.HasOne(d => d.DierCategorie).WithMany(p => p.LnkMestToedieningsEmissie)
                 .HasForeignKey(d => d.DierCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestToedieningsEmissies_lutDierCategorie");
 
-            entity.HasOne(d => d.MestType).WithMany(p => p.LnkMestToedieningsEmissies)
+            entity.HasOne(d => d.MestType).WithMany(p => p.LnkMestToedieningsEmissie)
                 .HasForeignKey(d => d.MestTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestToedieningsEmissies_lutMestType");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkMestToedieningsEmissies)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkMestToedieningsEmissie)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkMestToedieningsEmissies_tblVersie");
@@ -1051,17 +1051,17 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.StalId).HasColumnName("StalID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.LnkStalDierSubCategories)
+            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.LnkStalDierSubCategorie)
                 .HasForeignKey(d => d.DierSubCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkStalTypeDierSubCategorie_tblDierSubCategorie");
 
-            entity.HasOne(d => d.Stal).WithMany(p => p.LnkStalDierSubCategories)
+            entity.HasOne(d => d.Stal).WithMany(p => p.LnkStalDierSubCategorie)
                 .HasForeignKey(d => d.StalId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkStalTypeDierSubCategorie_tblStalType");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LnkStalDierSubCategories)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LnkStalDierSubCategorie)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lnkStalDierSubCategorie_tblVersie");
@@ -1081,7 +1081,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutCheckTypes)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutCheckType)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutCheckType_tblVersie");
@@ -1102,7 +1102,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutDierCategories)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutDierCategorie)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutDierCategorie_tblVersie");
@@ -1121,12 +1121,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.ToedieningsPlaatsId).HasColumnName("ToedieningsPlaatsID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.ToedieningsPlaats).WithMany(p => p.LutGewasGroeps)
+            entity.HasOne(d => d.ToedieningsPlaats).WithMany(p => p.LutGewasGroep)
                 .HasForeignKey(d => d.ToedieningsPlaatsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutGewasGroep_lutToedieningsPlaats");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutGewasGroeps)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutGewasGroep)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutGewasGroep_tblVersie");
@@ -1144,7 +1144,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutKunstmestGroeps)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutKunstmestGroep)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblKunstmestGroep_tblVersie");
@@ -1164,7 +1164,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutLandbouwStreeks)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutLandbouwStreek)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutLandbouwstreek_tblVersie");
@@ -1182,7 +1182,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutMestTypes)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutMestType)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutMestType_tblVersie");
@@ -1204,7 +1204,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
             entity.Property(e => e.ZoekTermen).HasMaxLength(200);
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutMestverwerkingsTechnieks)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutMestverwerkingsTechniek)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutMestverwerkingsTechniek_tblVersie");
@@ -1222,7 +1222,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutStalTypes)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutStalType)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutStalType_tblVersie");
@@ -1241,7 +1241,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutToedieningsPlaats)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutToedieningsPlaat)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutToedieningsPlaats_tblVersie");
@@ -1259,7 +1259,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.LutToedieningsTechnieks)
+            entity.HasOne(d => d.Versie).WithMany(p => p.LutToedieningsTechniek)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutToedieningsTechniek_tblVersie");
@@ -1406,12 +1406,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.TabelNaam).HasMaxLength(250);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.CheckType).WithMany(p => p.TblChecks)
+            entity.HasOne(d => d.CheckType).WithMany(p => p.TblCheck)
                 .HasForeignKey(d => d.CheckTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblCheck_lutCheckType");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblChecks)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblCheck)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblCheck_tblVersie");
@@ -1427,12 +1427,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.DierSubCategorieId).HasColumnName("DierSubCategorieID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.TblConvenants)
+            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.TblConvenant)
                 .HasForeignKey(d => d.DierSubCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblConvenant_tblDierSubCategorie");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblConvenants)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblConvenant)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblConvenant_tblVersie");
@@ -1456,12 +1456,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierCategorie).WithMany(p => p.TblDierSubCategories)
+            entity.HasOne(d => d.DierCategorie).WithMany(p => p.TblDierSubCategorie)
                 .HasForeignKey(d => d.DierCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblDierSubCategorie_tblDierSubCategorie");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblDierSubCategories)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblDierSubCategorie)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblDierSubCategorie_tblVersie");
@@ -1539,7 +1539,7 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.Naam).HasMaxLength(50);
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblParameters)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblParameter)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_lutParameter_tblVersie");
@@ -1557,12 +1557,12 @@ public partial class EmavContext : DbContext
                 .HasDefaultValueSql("(newsequentialid())")
                 .HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.TblRegressies)
+            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.TblRegressie)
                 .HasForeignKey(d => d.DierSubCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblRegressie_tblDierSubCategorie");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblRegressies)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblRegressie)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblRegressie_tblVersie");
@@ -1580,12 +1580,12 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.DierSubCategorieId).HasColumnName("DierSubCategorieID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.TblRegressieRechtes)
+            entity.HasOne(d => d.DierSubCategorie).WithMany(p => p.TblRegressieRechte)
                 .HasForeignKey(d => d.DierSubCategorieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblRegressieRechte_tblDierSubCategorie");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblRegressieRechtes)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblRegressieRechte)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblRegressieRechte_tblVersie");
@@ -1612,17 +1612,17 @@ public partial class EmavContext : DbContext
             entity.Property(e => e.StalTypeId).HasColumnName("StalTypeID");
             entity.Property(e => e.VersieId).HasColumnName("VersieID");
 
-            entity.HasOne(d => d.MestType).WithMany(p => p.TblStals)
+            entity.HasOne(d => d.MestType).WithMany(p => p.TblStal)
                 .HasForeignKey(d => d.MestTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblStalType_lutMestType");
 
-            entity.HasOne(d => d.StalType).WithMany(p => p.TblStals)
+            entity.HasOne(d => d.StalType).WithMany(p => p.TblStal)
                 .HasForeignKey(d => d.StalTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblStal_lutStalType");
 
-            entity.HasOne(d => d.Versie).WithMany(p => p.TblStals)
+            entity.HasOne(d => d.Versie).WithMany(p => p.TblStal)
                 .HasForeignKey(d => d.VersieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblStal_tblVersie");
