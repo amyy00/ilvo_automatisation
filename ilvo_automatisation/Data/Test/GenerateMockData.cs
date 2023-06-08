@@ -3,7 +3,7 @@ using ilvo_automatisation.Models;
 
 namespace ilvo_automatisation.Data.Test;
 
-public class GenerateMockData
+public abstract class GenerateMockData
 {
     public static void GenerateData()
     {

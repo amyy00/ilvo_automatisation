@@ -2,24 +2,28 @@
 using Microsoft.Data.SqlClient;
 using System;
 
-namespace ilvo_automatisation.Automatisation
+namespace ilvo_automatisation.Automatisation;
+
+public class History
 {
-    public class History
+    // Method to create history tables for the specified entity type
+    public static void CreateHistoryTables(Type entityType)
     {
-        public static void CreateHistoryTables(Type entityType)
+        try
         {
-            try
+            // Get the table name based on the entity type
+            string tableName = entityType.Name;
+
+            // Create a new SQL connection using the connection string from Constants class
+            using (SqlConnection connection = new SqlConnection(Constants.connectionString))
             {
-                // Haal de tabelnaam op
-                string tableName = entityType.Name;
+                connection.Open();
 
-                using (SqlConnection connection = new SqlConnection(Constants.connectionString))
-                {
-                    connection.Open();
+                // Create the fully qualified history table name
+                string historyTableName = $"history.{tableName}";
 
-                    string historyTableName = $"history.{tableName}";
-
-                    string createHistoryTableQuery = $@"
+                // SQL query to create the history table
+                string createHistoryTableQuery = $@"
                         CREATE TABLE {historyTableName}(
                             [HistoryID] [int] IDENTITY(1,1) NOT NULL,
                             [ID] [uniqueidentifier] NOT NULL,
@@ -32,18 +36,19 @@ namespace ilvo_automatisation.Automatisation
                             PRIMARY KEY CLUSTERED ([HistoryID] ASC)
                         )";
 
-                    using (SqlCommand command = new SqlCommand(createHistoryTableQuery, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-
-                    Console.WriteLine($"History table {historyTableName} created successfully!");
+                // Execute the create table query using a SqlCommand
+                using (SqlCommand command = new SqlCommand(createHistoryTableQuery, connection))
+                {
+                    command.ExecuteNonQuery();
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error creating history table: {ex.Message}");
+
+                // Display success message after creating the history table
+                Console.WriteLine($"History table {historyTableName} created successfully!");
             }
         }
-    }
+        catch (Exception ex)
+        {
+            // Display error message if an exception occurs during table creation
+            Console.WriteLine($"Error creating history table: {ex.Message}");
+        }
 }
