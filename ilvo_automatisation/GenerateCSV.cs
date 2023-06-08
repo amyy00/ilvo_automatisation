@@ -90,46 +90,22 @@ namespace ilvo_automatisation
                 .GetType()
                 .GetMethod("Set", Array.Empty<Type>())
                 .MakeGenericMethod(entityType);
-            
-            if (entityType == typeof(TblVersie))
-                
-                Console.WriteLine();
-            
+
             var dbSet = setMethod.Invoke(dbContext, null);
 
             var castMethod = typeof(Queryable)
                 .GetMethod("Cast")
                 .MakeGenericMethod(typeof(object));
 
-            var query = castMethod.Invoke(null, new[] { dbSet });
+            var query = castMethod.Invoke(null, new[] {dbSet});
 
-            //var queryableType = typeof(Queryable);
-            //var toListMethod = queryableType.GetMethods();
             var toListMethod = typeof(Enumerable)
                 .GetMethod("ToList")
                 .MakeGenericMethod(typeof(object));
 
-            var records = toListMethod.Invoke(null, new []{ query });
+            var records = toListMethod.Invoke(null, new[] {query});
 
             return (List<object>) records;
         }
-
-        //private List<object> GetRecordsFromDbContext(EmavContext dbContext, Type entityType)
-        //{
-        //    var setMethod = dbContext
-        //        .GetType()
-        //        .GetMethod("Set", Array.Empty<Type>());
-
-        //    var dbSet = setMethod.Invoke(dbContext, null);
-
-        //    var queryableType = typeof(Queryable);
-        //    var castMethod = queryableType.GetMethod("Cast").MakeGenericMethod(entityType);
-        //    var toListMethod = queryableType.GetMethod("ToList").MakeGenericMethod(entityType);
-
-        //    var castedDbSet = castMethod.Invoke(null, new[] { dbSet });
-        //    var records = toListMethod.Invoke(null, new[] { castedDbSet });
-
-        //    return (List<object>)records;
-        //}
     }
 }
