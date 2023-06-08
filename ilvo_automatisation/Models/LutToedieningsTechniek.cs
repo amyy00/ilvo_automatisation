@@ -8,7 +8,7 @@ public partial class LutToedieningsTechniek
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<LnkMestTechniekPlaat> LnkMestTechniekPlaats { get; set; } = new List<LnkMestTechniekPlaat>();
+    public virtual ICollection<LnkMestTechniekPlaat> LnkMestTechniekPlaat { get; set; } = new List<LnkMestTechniekPlaat>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }

@@ -18,7 +18,7 @@ public partial class TblStal
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<LnkStalDierSubCategorie> LnkStalDierSubCategories { get; set; } = new List<LnkStalDierSubCategorie>();
+    public virtual ICollection<LnkStalDierSubCategorie> LnkStalDierSubCategorie { get; set; } = new List<LnkStalDierSubCategorie>();
 
     public virtual LutMestType MestType { get; set; } = null!;
 
