@@ -83,8 +83,9 @@ public class GenerateMockData
                 context.LnkGewassens.Add(gewassenData);
 
             }
-            Console.WriteLine("mock data generated");
-            context.SaveChanges();
+            Console.WriteLine("Data is being saved to the database.");
+            context.SaveChanges();   
+            Console.WriteLine("Generated mock data completed.");
         }
             
     }
