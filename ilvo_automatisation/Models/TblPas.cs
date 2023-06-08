@@ -1,6 +1,6 @@
 ﻿namespace ilvo_automatisation.Models;
 
-public partial class TblPas
+public partial class tblPAS
 {
     public Guid Id { get; set; }
 
