@@ -31,11 +31,11 @@ namespace ilvo_automatisation
                     generateCSV.GenerateFile(dbContext, outputPath);
                     Console.WriteLine("Program completed");
                     break;
-
+                
                 case "trigger":
                     Console.WriteLine("Executing command trigger...");
+                    TrackHistory.TestTrackHistory();
                     Console.WriteLine("Program completed");
-                    // Add code for command 2
                     break;
 
                 case "mockdata":
