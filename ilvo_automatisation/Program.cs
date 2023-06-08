@@ -27,8 +27,8 @@ public abstract class Program
         string outputPath = GetDefaultOutputPath();
 
         Begin:
-        Console.WriteLine("Please enter a command: csv, mock data, trigger, exit");
-        string? input = Console.ReadLine();
+        Console.WriteLine("Please enter a command: csv, mock, trigger, history, exit");
+        string? input = Console.ReadLine().ToLower();
 
         switch (input)
         {
@@ -42,7 +42,7 @@ public abstract class Program
                 Console.WriteLine("Program completed");
                 break;
 
-            case "mock data":
+            case "mock":
                 Console.WriteLine("Executing command mockdata...");
                 // To fill the database with mock data
                 GenerateMockData.GenerateData();
