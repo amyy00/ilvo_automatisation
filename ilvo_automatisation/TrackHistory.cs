@@ -137,19 +137,16 @@ namespace ilvo_automatisation
             {
                 // Trigger for pas update
                 string updateTriggerQueryVersion = @"
-                CREATE TRIGGER [dbo].[tblPASTrigger_UPDATE] ON [dbo].[tblPAS]
+                CREATE TRIGGER [dbo].[tblVersieTrigger_UPDATE] ON [dbo].[tblVersie]
                 AFTER UPDATE AS
                 BEGIN
                     SET NOCOUNT ON;
-                    DECLARE @ID uniqueidentifier, @Naam nvarchar(50), @ReductiePercentage float, @PASStal bit, @PASVoeding bit, @PASWeide bit, @VersieID uniqueidentifier,
-                    @WeideUren float, @Staltype nvarchar(10), @EFNH3Traditioneel float
-                    SELECT @ID = dbo.tblPAS.ID, @Naam = dbo.tblPAS.Naam, @ReductiePercentage = dbo.tblPAS.ReductiePercentage, @PASStal = dbo.tblPAS.PASStal, 
-                    @PASVoeding = dbo.tblPAS.PASVoeding, @PASWeide = dbo.tblPAS.PASWeide, @VersieID = dbo.tblPAS.VersieID--,
-                    --@WeideUren =  dbo.tblPAS.WeideUren, @Staltype =  dbo.tblPAS.Staltype, @EFNH3Traditioneel =  dbo.tblPAS.EFNH3Traditioneel
-                    FROM INSERTED, dbo.tblPAS
+                    DECLARE @ID uniqueidentifier, @Naam nvarchar(50), @GebruikerID uniqueidentifier, @Publiek bit
+                    SELECT @ID = dbo.tblVersie.ID, @Naam = dbo.tblVersie.Naam, @GebruikerID = dbo.tblVersie.GebruikerID, @Publiek = dbo.tblVersie.Publiek
+                    FROM INSERTED, dbo.tblVersie
 
-                    INSERT INTO history.tblPAS( ID, Naam, ReductiePercentage, PASStal, PASVoeding, PASWeide, VersieID, WeideUren, Staltype, EFNH3Traditioneel, UpdatedBy, UpdatedOn, status)
-                    VALUES( @ID, @Naam, @ReductiePercentage, @PASStal, @PASVoeding, @PASWeide, @VersieID, @WeideUren, @Staltype, @EFNH3Traditioneel, SUSER_SNAME(), getdate(), 'Updated')
+                    INSERT INTO history.tblVersie( ID, Naam, GebruikerID, Publiek, UpdatedBy, UpdatedOn, status)
+                    VALUES( @ID,  @Naam, @GebruikerID, @Publiek, SUSER_SNAME(), getdate(), 'Updated')
                 END";
 
                 using (SqlCommand command = new SqlCommand(updateTriggerQueryVersion, connection))
@@ -248,7 +245,7 @@ namespace ilvo_automatisation
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Trigger gewassen Version: " + ex.Message);
+                Console.WriteLine("Trigger delete gewassen: " + ex.Message);
             }
         }
 
