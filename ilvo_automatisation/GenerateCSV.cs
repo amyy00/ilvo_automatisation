@@ -1,107 +1,106 @@
 ﻿using ilvo_automatisation.Models;
 
-namespace ilvo_automatisation
+namespace ilvo_automatisation;
+
+public class GenerateCsv
 {
-    public class GenerateCsv
+    public void GenerateFile(EmavContext dbContext, string outputPath)
     {
-        public void GenerateFile(EmavContext dbContext, string outputPath)
+        Console.WriteLine("Generating CSV file...");
+
+        // Get the entity types from the DbContext's model
+        var entityTypes = dbContext.Model.GetEntityTypes();
+
+        var csvData = new List<string>();
+
+        // Get the current datetime
+        string datetime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+        // Create the output filename with datetime
+        string outputFileName = $"DatabaseClasses_{datetime}.csv";
+        string outputFilePath = Path.Combine(outputPath, outputFileName);
+
+        // Add the data file name above the created rows
+        csvData.Add($"Data File: {outputFileName}");
+        csvData.Add(string.Empty);
+
+        foreach (var entityType in entityTypes)
         {
-            Console.WriteLine("Generating CSV file...");
+            var className = entityType.ClrType.Name;
+            if (className != "TblVersie")
+            { 
+                // Generate the properties of the class based on entity properties
+                var properties = entityType.GetProperties()
+                    .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
+                    .ToList();
 
-            // Get the entity types from the DbContext's model
-            var entityTypes = dbContext.Model.GetEntityTypes();
+                // Add the class definition to the CSV data
+                csvData.Add(className);
 
-            var csvData = new List<string>();
+                // Add the headers for the CSV file
+                csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
 
-            // Get the current datetime
-            string datetime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                // Retrieve records for each entity type
+                var records = GetRecordsFromDbContext(dbContext, entityType.ClrType);
 
-            // Create the output filename with datetime
-            string outputFileName = $"DatabaseClasses_{datetime}.csv";
-            string outputFilePath = Path.Combine(outputPath, outputFileName);
-
-            // Add the data file name above the created rows
-            csvData.Add($"Data File: {outputFileName}");
-            csvData.Add(string.Empty);
-
-            foreach (var entityType in entityTypes)
-            {
-                var className = entityType.ClrType.Name;
-                if (className != "TblVersie")
-                { 
-                    // Generate the properties of the class based on entity properties
-                    var properties = entityType.GetProperties()
-                        .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
+                // Add the records for each entity type to the CSV data
+                foreach (var record in records)
+                {
+                    var propertyValues = entityType.GetProperties()
+                        .Select(property => GetValueString(record, property.Name))
                         .ToList();
 
-                    // Add the class definition to the CSV data
-                    csvData.Add(className);
-
-                    // Add the headers for the CSV file
-                    csvData.Add(string.Join(",", entityType.GetProperties().Select(p => p.Name)));
-
-                    // Retrieve records for each entity type
-                    var records = GetRecordsFromDbContext(dbContext, entityType.ClrType);
-
-                    // Add the records for each entity type to the CSV data
-                    foreach (var record in records)
-                    {
-                        var propertyValues = entityType.GetProperties()
-                            .Select(property => GetValueString(record, property.Name))
-                            .ToList();
-
-                        csvData.Add(string.Join(",", propertyValues));
-                    }
-
-                    // Add an empty row between data tables
-                    csvData.Add(string.Empty);
+                    csvData.Add(string.Join(",", propertyValues));
                 }
+
+                // Add an empty row between data tables
+                csvData.Add(string.Empty);
             }
-
-            // Create the CSV text by joining the CSV data
-            var csvText = string.Join(Environment.NewLine, csvData);
-
-            // Write the CSV text to the output file
-            File.WriteAllText(outputFilePath, csvText);
-            Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
         }
 
-        private static string? GetValueString(object obj, string propertyName)
-        {
-            // Get the value of the specified property from the object
-            var propertyValue = obj.GetType().GetProperty(propertyName)?.GetValue(obj);
+        // Create the CSV text by joining the CSV data
+        var csvText = string.Join(Environment.NewLine, csvData);
 
-            if (propertyValue == null)
-                return "null";
+        // Write the CSV text to the output file
+        File.WriteAllText(outputFilePath, csvText);
+        Console.WriteLine($"CSV file generated successfully. Output file: {outputFilePath}");
+    }
 
-            if (propertyValue is string)
-                return $"\"{propertyValue}\"";
+    private static string? GetValueString(object obj, string propertyName)
+    {
+        // Get the value of the specified property from the object
+        var propertyValue = obj.GetType().GetProperty(propertyName)?.GetValue(obj);
 
-            return propertyValue.ToString();
-        }
+        if (propertyValue == null)
+            return "null";
 
-        private List<object> GetRecordsFromDbContext(EmavContext dbContext, Type entityType)
-        {
-            var setMethod = dbContext
-                .GetType()
-                .GetMethod("Set", Array.Empty<Type>())
-                .MakeGenericMethod(entityType);
+        if (propertyValue is string)
+            return $"\"{propertyValue}\"";
 
-            var dbSet = setMethod.Invoke(dbContext, null);
+        return propertyValue.ToString();
+    }
 
-            var castMethod = typeof(Queryable)
-                .GetMethod("Cast")
-                .MakeGenericMethod(typeof(object));
+    private List<object> GetRecordsFromDbContext(EmavContext dbContext, Type entityType)
+    {
+        var setMethod = dbContext
+            .GetType()
+            .GetMethod("Set", Array.Empty<Type>())
+            .MakeGenericMethod(entityType);
 
-            var query = castMethod.Invoke(null, new[] {dbSet});
+        var dbSet = setMethod.Invoke(dbContext, null);
 
-            var toListMethod = typeof(Enumerable)
-                .GetMethod("ToList")
-                .MakeGenericMethod(typeof(object));
+        var castMethod = typeof(Queryable)
+            .GetMethod("Cast")
+            .MakeGenericMethod(typeof(object));
 
-            var records = toListMethod.Invoke(null, new[] {query});
+        var query = castMethod.Invoke(null, new[] {dbSet});
 
-            return (List<object>) records;
-        }
+        var toListMethod = typeof(Enumerable)
+            .GetMethod("ToList")
+            .MakeGenericMethod(typeof(object));
+
+        var records = toListMethod.Invoke(null, new[] {query});
+
+        return (List<object>) records;
     }
 }
