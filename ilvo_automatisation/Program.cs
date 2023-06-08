@@ -54,10 +54,11 @@ namespace ilvo_automatisation
 
                 case "automate trigger":
                     Console.WriteLine("Executing command automate trigger");
-                    DatabaseAutomatisation.AutomateTriggers<TblStal>();
-                    DatabaseAutomatisation.AutomateTriggers<TblPas>();
-                    DatabaseAutomatisation.AutomateTriggers<TblVersie>();
-                    DatabaseAutomatisation.AutomateTriggers<LnkGewassen>();
+                    var entityTypes = dbContext.Model.GetEntityTypes();
+                    foreach (var entityType in entityTypes)
+                    {
+                        DatabaseAutomatisation.AutomateTriggers(entityType.ClrType);
+                    }
                     Console.WriteLine("Program completed");
                     break;
 

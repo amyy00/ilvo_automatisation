@@ -6,10 +6,10 @@ namespace ilvo_automatisation
 {
     public class DatabaseAutomatisation
     {
-        public static void AutomateTriggers<T>()
+        public static void AutomateTriggers(Type entityType)
         {
             // Get the class name
-            string className = typeof(T).Name;
+            string className = entityType.Name;
 
             try
             {
@@ -24,7 +24,7 @@ namespace ilvo_automatisation
                     SELECT @ID = dbo.{className}.ID
                     FROM INSERTED, dbo.{className}
 
-                    INSERT INTO history.{className}( ID, UpdatedBy, UpdatedOn, status)
+                    INSERT INTO history.{className}({string.Join(",", entityType.GetProperties().Select(p => p.Name))})
                     VALUES( @ID, SUSER_SNAME(), GETDATE(), 'Updated')
                 END";
 
@@ -57,7 +57,7 @@ namespace ilvo_automatisation
                     SELECT @ID = DELETED.ID
                     FROM DELETED
 
-                    INSERT INTO history.{className}( ID, UpdatedBy, UpdatedOn, status)
+                    INSERT INTO history.{className}({string.Join(",", entityType.GetProperties().Select(p => p.Name))})
                     VALUES( @ID, SUSER_SNAME(), GETDATE(), 'Deleted')
                 END";
 
@@ -78,12 +78,12 @@ namespace ilvo_automatisation
             }
         }
 
-        public static void TestTrackHistory()
-        {
-            AutomateTriggers<TblStal>();
-            AutomateTriggers<TblPas>();
-            AutomateTriggers<TblVersie>();
-            AutomateTriggers<LnkGewassen>();
-        }
+        //public static void TestTrackHistory()
+        //{
+        //    AutomateTriggers<TblStal>();
+        //    AutomateTriggers<TblPas>();
+        //    AutomateTriggers<TblVersie>();
+        //    AutomateTriggers<LnkGewassen>();
+        //}
     }
 }
