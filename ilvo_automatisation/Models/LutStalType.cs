@@ -8,7 +8,7 @@ public partial class LutStalType
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<TblStal> TblStals { get; set; } = new List<TblStal>();
+    public virtual ICollection<TblStal> TblStal { get; set; } = new List<TblStal>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }

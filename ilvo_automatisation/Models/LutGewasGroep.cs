@@ -17,7 +17,7 @@ public partial class LutGewasGroep
 
     public int PrioriteitUitrijden2 { get; set; }
 
-    public virtual ICollection<LnkGewassen> LnkGewassens { get; set; } = new List<LnkGewassen>();
+    public virtual ICollection<LnkGewassen> LnkGewassen { get; set; } = new List<LnkGewassen>();
 
     public virtual LutToedieningsPlaat ToedieningsPlaats { get; set; } = null!;
 

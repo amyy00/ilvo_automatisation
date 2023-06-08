@@ -8,7 +8,7 @@ public partial class LutCheckType
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<TblCheck> TblChecks { get; set; } = new List<TblCheck>();
+    public virtual ICollection<TblCheck> TblCheck { get; set; } = new List<TblCheck>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }

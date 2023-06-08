@@ -8,7 +8,7 @@ public partial class LutLandbouwStreek
 
     public Guid VersieId { get; set; }
 
-    public virtual ICollection<LnkKunstmestGroepStreek> LnkKunstmestGroepStreeks { get; set; } = new List<LnkKunstmestGroepStreek>();
+    public virtual ICollection<LnkKunstmestGroepStreek> LnkKunstmestGroepStreek { get; set; } = new List<LnkKunstmestGroepStreek>();
 
     public virtual TblVersie Versie { get; set; } = null!;
 }
