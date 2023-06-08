@@ -34,7 +34,6 @@ public class GenerateMockData
             .RuleFor(v => v.Naam, f => f.PickRandom(names))
             .RuleFor(v => v.GebruikerId, f => f.Random.Guid())
             .RuleFor(v => v.Publiek, f => f.Random.Bool())
-            //.RuleFor(v => v.Gebruiker, f => new TblGebruiker())
             .RuleFor(v => v.LnkGewassens, f => new List<LnkGewassen>())
             .RuleFor(v => v.LnkKunstmestGroepStreeks, f => new List<LnkKunstmestGroepStreek>())
             .RuleFor(v => v.LnkKunstmests, f => new List<LnkKunstmest>())
