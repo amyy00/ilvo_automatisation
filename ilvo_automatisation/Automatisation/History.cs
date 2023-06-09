@@ -30,24 +30,36 @@ namespace ilvo_automatisation.Automatisation
                     string historyTableName = $"history.{tableName}";
 
                     // SQL query to drop the existing history table if it exists
-                    string dropHistoryTableQuery = $"IF OBJECT_ID('{historyTableName}', 'U') IS NOT NULL DROP TABLE {historyTableName}";
+                    string dropHistoryTableQuery = $@"
+                        IF OBJECT_ID('{historyTableName}', 'U') IS NOT NULL
+                        BEGIN
+                            EXEC('DROP TABLE {historyTableName}')
+                            PRINT 'Deleting table {historyTableName}'
+                        END";
 
                     // Execute the drop table query using a SqlCommand
                     using (SqlCommand dropTableCommand = new SqlCommand(dropHistoryTableQuery, connection))
                     {
                         dropTableCommand.ExecuteNonQuery();
-                        Console.WriteLine($"Deleting table {historyTableName}");
                     }
 
                     DataTable schemaTable = connection.GetSchema("Columns", new[] { databaseName, null, tableName });
 
                     var dataRows = schemaTable.Rows.Cast<DataRow>()
-                            //.Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}] [{row["CHARACTER_MAXIMUM_LENGTH"]}] [{row["IS_NULLABLE"]}]");
-                            .Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}]");
+                        .Select(row =>
+                        {
+                            string columnName = row["COLUMN_NAME"].ToString();
+                            string dataType = row["DATA_TYPE"].ToString();
+                            string maxLength = row["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                            string isNullable = row["IS_NULLABLE"].ToString();
+                            return $"[{columnName}] [{dataType}]{(string.IsNullOrEmpty(maxLength) ? "" : $"({maxLength})")}] {(isNullable == "YES" ? "NULL" : "NOT NULL")}";
+                        });
 
                     // SQL query to create the history table
                     string createHistoryTableQuery = $@"
                     CREATE TABLE {historyTableName}(
+                        [HistoryID] [int] IDENTITY(1,1) NOT NULL,
+                        [ID] [uniqueidentifier] NOT NULL,
                         {string.Join(",", dataRows)},
                         [UpdatedBy] [nvarchar](128) NULL,
                         [UpdatedOn] [datetime] NULL,
