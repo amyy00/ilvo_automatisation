@@ -45,20 +45,16 @@ public abstract class Program
             case "trigger":
                 Console.WriteLine("Executing command automate trigger");
                 // Get the database name from the DbContext
-                string databaseName = dbContext.Database.GetDbConnection().Database;
+                var databaseName = dbContext.Database.GetDbConnection().Database;
                 // Get all entity types from the DbContext model
-                var triggerEntityTypes = dbContext.Model.GetEntityTypes();
+                var triggerEntityTypes = dbContext.Model.GetEntityTypes().Select(t => t.ClrType).ToList(); ;
                 foreach (var triggerEntityType in triggerEntityTypes)
                 {
-                    if (triggerEntityType.ClrType != null)
-                    {
-                        // Automate triggers for each entity type
-                        Triggers.AutomateTriggers(triggerEntityType.ClrType, databaseName);
-                    }
+                    // Automate triggers for each entity type
+                    Triggers.AutomateTriggers(triggerEntityType, databaseName);
                 }
                 Console.WriteLine("Program completed");
                 break;
-
 
             case "history":
                 Console.WriteLine("Executing command trigger...");
