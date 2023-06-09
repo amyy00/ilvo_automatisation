@@ -10,25 +10,18 @@ public abstract class Program
 {
     public static void Main(string[] args)
     {
-        // Make sure to have a Constants.cs file with the following details:
-        // public class Constants
-        // {
-        //     internal static string connectionString = "{connection string}";
-        // }
-
         // Get the connection string from Constants.cs
         string connectionString = Constants.connectionString;
 
         // Create the DbContext using the provided connection string
-        using var dbContext =
-            new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
+        using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
         // Get the default output path
         string outputPath = GetDefaultOutputPath();
 
         Begin:
-        Console.WriteLine("Please enter a command: csv, mock data, trigger, exit");
-        string? input = Console.ReadLine();
+        Console.WriteLine("Please enter a command: mock, csv, trigger, history, exit");
+        string? input = Console.ReadLine()?.ToLower();
 
         switch (input)
         {
@@ -42,7 +35,7 @@ public abstract class Program
                 Console.WriteLine("Program completed");
                 break;
 
-            case "mock data":
+            case "mock":
                 Console.WriteLine("Executing command mockdata...");
                 // To fill the database with mock data
                 GenerateMockData.GenerateData();
@@ -51,12 +44,14 @@ public abstract class Program
 
             case "trigger":
                 Console.WriteLine("Executing command automate trigger");
+                // Get the database name from the DbContext
+                var databaseName = dbContext.Database.GetDbConnection().Database;
                 // Get all entity types from the DbContext model
-                var triggerEntityTypes = dbContext.Model.GetEntityTypes();
+                var triggerEntityTypes = dbContext.Model.GetEntityTypes().Select(t => t.ClrType).ToList(); ;
                 foreach (var triggerEntityType in triggerEntityTypes)
                 {
                     // Automate triggers for each entity type
-                    Triggers.AutomateTriggers(triggerEntityType.ClrType);
+                    Triggers.AutomateTriggers(triggerEntityType, databaseName);
                 }
                 Console.WriteLine("Program completed");
                 break;
@@ -64,11 +59,12 @@ public abstract class Program
             case "history":
                 Console.WriteLine("Executing command trigger...");
                 // Get all entity types from the DbContext model
+                string historyDatabaseName = dbContext.Database.GetDbConnection().Database;
                 var historyEntityTypes = dbContext.Model.GetEntityTypes();
                 foreach (var historyEntityType in historyEntityTypes)
                 {
                     // Create history tables for each entity type
-                    History.CreateHistoryTables(historyEntityType.ClrType);
+                    History.CreateHistoryTables(historyEntityType.ClrType, historyDatabaseName, dbContext);
                 }
                 Console.WriteLine("Program completed");
                 break;
@@ -77,7 +73,6 @@ public abstract class Program
                 Console.WriteLine("Closing program...");
                 Console.ReadLine();
                 goto End;
-                break;
 
             default:
                 Console.WriteLine("Unknown command.");
