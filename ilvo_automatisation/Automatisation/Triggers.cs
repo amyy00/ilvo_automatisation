@@ -37,6 +37,12 @@ namespace ilvo_automatisation.Automatisation
                 // Get the data type of the ID column
                 string idDataType = idColumn["DATA_TYPE"].ToString();
 
+                var dataRows = schemaTable.Rows.Cast<DataRow>()
+                    .Select(row => $"[{row["COLUMN_NAME"]}]")
+                    .Distinct()
+                    .Where(s => !new[] { "[HistoryID]", "[UpdatedBy]", "[UpdatedOn]", "[Status]" }.Contains(s))
+                    .ToList();
+
                 try
                 {
                     // Remove existing triggers
@@ -44,7 +50,7 @@ namespace ilvo_automatisation.Automatisation
 
                     // Trigger for update
                     string updateTriggerQuery = $@"
-                    CREATE TRIGGER [dbo].[{tableName}Trigger_UPDATE] ON [dbo].[{tableName}]
+                    CREATE TRIGGER [dbo].[{tableName}rigger_UPDATE] ON [dbo].[{tableName}]
                     AFTER UPDATE AS
                     BEGIN
                         SET NOCOUNT ON;
@@ -53,8 +59,8 @@ namespace ilvo_automatisation.Automatisation
                         SELECT @ID = dbo.{tableName}.ID
                         FROM INSERTED, dbo.{tableName}
 
-                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => $"[{p.Name}]"))}, [UpdatedBy],[UpdatedOn],[Status])
-                        SELECT {string.Join(",", entityType.GetProperties().Select(p => $"INSERTED.[{p.Name}]"))}, USER_NAME(), GETDATE(), 'INSERTED' FROM INSERTED
+                        INSERT INTO history.{tableName}({string.Join(",", dataRows)},[UpdatedBy],[UpdatedOn],[Status])
+                        SELECT {string.Join(",", dataRows)},USER_NAME(),GETDATE(),'INSERTED' FROM INSERTED
                     END";
 
                     // Execute the update trigger query using a SqlCommand
