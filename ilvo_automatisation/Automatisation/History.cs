@@ -20,6 +20,7 @@ namespace ilvo_automatisation.Automatisation
                     .FirstOrDefault()
                     .Value
                     .ToString();
+
                 // Create a new SQL connection using the connection string from Constants class
                 using (SqlConnection connection = new SqlConnection(Constants.connectionString))
                 {
@@ -41,7 +42,8 @@ namespace ilvo_automatisation.Automatisation
                     DataTable schemaTable = connection.GetSchema("Columns", new[] { databaseName, null, tableName });
 
                     var dataRows = schemaTable.Rows.Cast<DataRow>()
-                            .Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}] [{row["CHARACTER_MAXIMUM_LENGTH"]}] [{row["IS_NULLABLE"]}]");
+                            //.Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}] [{row["CHARACTER_MAXIMUM_LENGTH"]}] [{row["IS_NULLABLE"]}]");
+                            .Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}]");
 
                     // SQL query to create the history table
                     string createHistoryTableQuery = $@"

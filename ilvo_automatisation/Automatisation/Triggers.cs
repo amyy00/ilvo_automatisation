@@ -6,7 +6,7 @@ using System.Data;
 
 namespace ilvo_automatisation.Automatisation
 {
-    public abstract class Triggers
+    public class Triggers
     {
         // Method to automate triggers for the specified entity type
         public static void AutomateTriggers(Type entityType, string databaseName)
@@ -60,7 +60,6 @@ namespace ilvo_automatisation.Automatisation
                         INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => $"[{p.Name}]"))}, [UpdatedBy],[UpdatedOn],[Status])
                         SELECT {string.Join(",", entityType.GetProperties().Select(p => $"INSERTED.[{p.Name}]"))}, SUSER_SNAME(), GETDATE(), 'INSERTED' FROM INSERTED
                     END";
-
 
                     // Execute the update trigger query using a SqlCommand
                     using (SqlCommand command = new SqlCommand(updateTriggerQuery, connection))
