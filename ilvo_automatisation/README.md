@@ -1,68 +1,62 @@
-# Project Name
+# Project
 ILVO Automatisation
 
+## Automatisation
 
-# Description
-ILVO Automatisation is a project that provides functionalities for connecting to a database, generating mock data, automating triggers, and generating CSV files.
+This folder contains automation functions for managing triggers and history tables in the database and creating CSV file with data from the database.
 
+### History
+The `History` class in the `History.cs` file is responsible for creating history tables for a specified entity type.
 
-# Getting Started
-## Prerequisites
-- Before running the project, make sure you have the following:
+To create the history tables, you need to enter the following code in the console when running the project.
 
+```csharp
+history
+```
 
-# .NET Core SDK link to download
-## Installation
-1. Clone the repository: git clone https://github.com/your-username/ilvo-automatisation.git
-2. Navigate to the project directory: cd ilvo-automatisation
+### Triggers
+The `Triggers` class in the `Triggers.cs` file is responsible for creating triggers for a specified entity type.
 
+To create the triggers, you need to enter the following code in the console when running the project.
 
-# Connecting to Database
-To connect to the database, you need to provide the connection string in a Constants.cs file. Follow these steps:
+```csharp
+trigger
+```
+### CSV
+The `CSV` class in the `GenerateCSV.cs` file is responsible for creating CSV files from the database.
 
-1. Create a file named Constants.cs in the ilvo_automatisation.Data folder.
-2. Add the following code to the Constants.cs file:
-    ```csharp
-    public class Constants
-    {
-        internal static string connectionString = "{connection string}";
-    }
-    ```
-3. Replace {connection string} with the actual connection string for your database.
+To create the CSV file, you need to enter the following code in the console when running the project.
 
+```csharp
+csv
+```
 
-# Mock Data
-The project includes a functionality to generate mock data for the database. To use this feature, follow these steps:
+## Data
 
-1. Run the program.
-2. Enter the command mock when prompted.
-3. The program will fill the database with mock data.
+### Constants
 
-# Automatisation
-The project provides automatisation features for triggers. To automate triggers for a specific entity type, follow these steps:
+The `Constants` is used for the connection to the database.
 
-1. Run the program.
-2. Enter the command trigger when prompted.
-3. The program will automate triggers for each entity type in the database.
+In the folder `Data` add `Constants.cs`.
 
+Add the code to the folder:
+```csharp
+public class Constants
+{
+    internal static string connectionString = "{connection string}";
+}
+```
+### Test
+In the folder `Data` is a folder `Test`, in this folder is the mock data created.
 
-# CSV
-The project allows generating CSV files from the database. To generate a CSV file, follow these steps:
+To create the mock data, you need to enter the following code in the console when running the project.
 
-1. Run the program.
-2. Enter the command csv when prompted.
-3. The program will generate a CSV file based on the database tables and save it to the default output path.
+```csharp
+mock
+```
 
-
-
-# Usage
-1. Run the program.
-2. Enter one of the following commands when prompted:
-  - csv: Generate a CSV file from the database.
-  - mock: Fill the database with mock data.
-  - trigger: Automate triggers for the database.
-  - history: Automate history for the database.
-  - exit: Close the program.
+# Models
+The `Models` folder contains classes representing the tables in the database. Each class corresponds to a table and defines its properties and relationships. These models are used to interact with the database and perform CRUD operations.
 
 # Contributors
-Jarne S., Amy N., Steven D.
+Steven D., Jarne S., Amy N.
