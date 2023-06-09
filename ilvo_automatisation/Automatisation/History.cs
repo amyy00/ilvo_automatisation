@@ -22,25 +22,23 @@ namespace ilvo_automatisation.Automatisation
                     .ToString();
 
                 // Create a new SQL connection using the connection string from Constants class
-                using (SqlConnection connection = new SqlConnection(Constants.connectionString))
+                using (var connection = new SqlConnection(Constants.connectionString))
                 {
                     connection.Open();
 
                     // Create the fully qualified history table name
-                    string historyTableName = $"history.{tableName}";
+                    var historyTableName = $"history_{tableName}";
 
                     // SQL query to drop the existing history table if it exists
-                    string dropHistoryTableQuery = $@"
-                        IF OBJECT_ID('{historyTableName}', 'U') IS NOT NULL
-                        BEGIN
-                            EXEC('DROP TABLE {historyTableName}')
-                            PRINT 'Deleting table {historyTableName}'
-                        END";
+                    var dropHistoryTableQuery = $@"
+                    IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'{historyTableName}') AND type = N'U')
+                    DROP TABLE {historyTableName}";
 
-                    // Execute the drop table query using a SqlCommand
-                    using (SqlCommand dropTableCommand = new SqlCommand(dropHistoryTableQuery, connection))
+                    // Execute the check and drop table query using a SqlCommand
+                    using (var dropTableCommand = new SqlCommand(dropHistoryTableQuery, connection))
                     {
                         dropTableCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Dropping {historyTableName}...");
                     }
 
                     DataTable schemaTable = connection.GetSchema("Columns", new[] { databaseName, null, tableName });
@@ -48,27 +46,27 @@ namespace ilvo_automatisation.Automatisation
                     var dataRows = schemaTable.Rows.Cast<DataRow>()
                         .Select(row =>
                         {
-                            string columnName = row["COLUMN_NAME"].ToString();
-                            string dataType = row["DATA_TYPE"].ToString();
-                            string maxLength = row["CHARACTER_MAXIMUM_LENGTH"].ToString();
-                            string isNullable = row["IS_NULLABLE"].ToString();
-                            return $"[{columnName}] [{dataType}]{(string.IsNullOrEmpty(maxLength) ? "" : $"({maxLength})")}] {(isNullable == "YES" ? "NULL" : "NOT NULL")}";
+                            string? columnName = row["COLUMN_NAME"].ToString();
+                            string? dataType = row["DATA_TYPE"].ToString();
+                            string? maxLength = row["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                            string? isNullable = row["IS_NULLABLE"].ToString();
+                            return $"[{columnName}] [{dataType}] {(string.IsNullOrEmpty(maxLength) ? "" : $"({maxLength})")} {(isNullable == "YES" ? "NULL" : "NOT NULL")}";
                         });
 
                     // SQL query to create the history table
-                    string createHistoryTableQuery = $@"
+                    var createHistoryTableQuery = $@"
                     CREATE TABLE {historyTableName}(
-                        [HistoryID] [int] IDENTITY(1,1) NOT NULL,
-                        [ID] [uniqueidentifier] NOT NULL,
-                        {string.Join(",", dataRows)},
-                        [UpdatedBy] [nvarchar](128) NULL,
-                        [UpdatedOn] [datetime] NULL,
-                        [Status] [nvarchar](30) NULL,
-                        PRIMARY KEY CLUSTERED ([HistoryID] ASC)
-                    )";
+	                [HistoryID] [int] IDENTITY(1,1) NOT NULL,
+                    [ID] [uniqueidentifier] NOT NULL,
+	                [Naam] [nvarchar](50) NOT NULL,
+                    {string.Join(",", dataRows)},
+                    [UpdatedBy] [nvarchar](128) NULL,
+                    [UpdatedOn] [datetime] NULL,
+                    [Status] [nvarchar](30) NULL,
+                    PRIMARY KEY CLUSTERED ([HistoryID] ASC))";
 
                     // Execute the create table query using a SqlCommand
-                    using (SqlCommand createTableCommand = new SqlCommand(createHistoryTableQuery, connection))
+                    using (var createTableCommand = new SqlCommand(createHistoryTableQuery, connection))
                     {
                         createTableCommand.ExecuteNonQuery();
                     }
