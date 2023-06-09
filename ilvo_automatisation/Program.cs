@@ -10,25 +10,18 @@ public abstract class Program
 {
     public static void Main(string[] args)
     {
-        // Make sure to have a Constants.cs file with the following details:
-        // public class Constants
-        // {
-        //     internal static string connectionString = "{connection string}";
-        // }
-
         // Get the connection string from Constants.cs
         string connectionString = Constants.connectionString;
 
         // Create the DbContext using the provided connection string
-        using var dbContext =
-            new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
+        using var dbContext = new EmavContext(new DbContextOptionsBuilder<EmavContext>().UseSqlServer(connectionString).Options);
 
         // Get the default output path
         string outputPath = GetDefaultOutputPath();
 
         Begin:
         Console.WriteLine("Please enter a command: csv, mock, trigger, history, exit");
-        string? input = Console.ReadLine().ToLower();
+        string? input = Console.ReadLine()?.ToLower();
 
         switch (input)
         {
@@ -51,12 +44,14 @@ public abstract class Program
 
             case "trigger":
                 Console.WriteLine("Executing command automate trigger");
+                // Get the database name from the DbContext
+                string databaseName = dbContext.Database.GetDbConnection().Database;
                 // Get all entity types from the DbContext model
                 var triggerEntityTypes = dbContext.Model.GetEntityTypes();
                 foreach (var triggerEntityType in triggerEntityTypes)
                 {
                     // Automate triggers for each entity type
-                    Triggers.AutomateTriggers(triggerEntityType.ClrType);
+                    Triggers.AutomateTriggers(triggerEntityType.ClrType, databaseName);
                 }
                 Console.WriteLine("Program completed");
                 break;
