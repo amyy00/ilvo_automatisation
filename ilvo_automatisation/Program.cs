@@ -68,7 +68,7 @@ public abstract class Program
                 foreach (var historyEntityType in historyEntityTypes)
                 {
                     // Create history tables for each entity type
-                    History.CreateHistoryTables(historyEntityType.ClrType, historyDatabaseName);
+                    History.CreateHistoryTables(historyEntityType.ClrType, historyDatabaseName, dbContext);
                 }
                 Console.WriteLine("Program completed");
                 break;

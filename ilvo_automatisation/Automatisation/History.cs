@@ -1,25 +1,22 @@
 ﻿using ilvo_automatisation.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Linq;
 
 namespace ilvo_automatisation.Automatisation
 {
     public class History
     {
         // Method to create history tables for the specified entity type
-        public static void CreateHistoryTables(Type entityType, string databaseName)
+        public static void CreateHistoryTables(Type entityType, string databaseName, DbContext dbContext)
         {
             try
             {
                 // Get the table name based on the entity type
-                string tableName = entityType.GetCustomAttributesData()
-                    .FirstOrDefault(x => x.AttributeType == typeof(TableAttribute))
-                    ?.ConstructorArguments
-                    .FirstOrDefault()
-                    .Value
-                    .ToString();
+                string tableName = dbContext.Model.FindEntityType(entityType).GetTableName();
 
                 // Create a new SQL connection using the connection string from Constants class
                 using (SqlConnection connection = new SqlConnection(Constants.connectionString))
@@ -42,12 +39,12 @@ namespace ilvo_automatisation.Automatisation
                     DataTable schemaTable = connection.GetSchema("Columns", new[] { databaseName, null, tableName });
 
                     var dataRows = schemaTable.Rows.Cast<DataRow>()
-                            //.Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}] [{row["CHARACTER_MAXIMUM_LENGTH"]}] [{row["IS_NULLABLE"]}]");
                             .Select(row => $"[{row["COLUMN_NAME"]}] [{row["DATA_TYPE"]}]");
 
                     // SQL query to create the history table
                     string createHistoryTableQuery = $@"
                     CREATE TABLE {historyTableName}(
+                        [HistoryID] [int] IDENTITY(1,1) NOT NULL,
                         {string.Join(",", dataRows)},
                         [UpdatedBy] [nvarchar](128) NULL,
                         [UpdatedOn] [datetime] NULL,
