@@ -1,6 +1,6 @@
 ﻿using ilvo_automatisation.Models;
 
-namespace ilvo_automatisation;
+namespace ilvo_automatisation.Automatisation;
 
 public class GenerateCsv
 {
@@ -28,7 +28,7 @@ public class GenerateCsv
         {
             var className = entityType.ClrType.Name;
             if (className != "TblVersie")
-            { 
+            {
                 // Generate the properties of the class based on entity properties
                 var properties = entityType.GetProperties()
                     .Select(property => $"    public {property.ClrType} {property.Name} {{ get; set; }}")
@@ -93,14 +93,14 @@ public class GenerateCsv
             .GetMethod("Cast")
             .MakeGenericMethod(typeof(object));
 
-        var query = castMethod.Invoke(null, new[] {dbSet});
+        var query = castMethod.Invoke(null, new[] { dbSet });
 
         var toListMethod = typeof(Enumerable)
             .GetMethod("ToList")
             .MakeGenericMethod(typeof(object));
 
-        var records = toListMethod.Invoke(null, new[] {query});
+        var records = toListMethod.Invoke(null, new[] { query });
 
-        return (List<object>) records;
+        return (List<object>)records;
     }
 }
