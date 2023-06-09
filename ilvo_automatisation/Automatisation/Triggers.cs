@@ -1,11 +1,12 @@
 ﻿using ilvo_automatisation.Data;
 using Microsoft.Data.SqlClient;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace ilvo_automatisation.Automatisation
 {
-    public class Triggers
+    public abstract class Triggers
     {
         // Method to automate triggers for the specified entity type
         public static void AutomateTriggers(Type entityType, string databaseName)
@@ -56,9 +57,10 @@ namespace ilvo_automatisation.Automatisation
                         SELECT @ID = dbo.{tableName}.ID
                         FROM INSERTED, dbo.{tableName}
 
-                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => $"[{p.Name}]"))})
-                        VALUES(({string.Join(",", entityType.GetProperties().Select(p => $"INSERTED.[{p.Name}]"))}), SUSER_SNAME(), GETDATE(), 'Updated')
+                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => $"[{p.Name}]"))}, [UpdatedBy],[UpdatedOn],[Status])
+                        SELECT {string.Join(",", entityType.GetProperties().Select(p => $"INSERTED.[{p.Name}]"))}, SUSER_SNAME(), GETDATE(), 'INSERTED' FROM INSERTED
                     END";
+
 
                     // Execute the update trigger query using a SqlCommand
                     using (SqlCommand command = new SqlCommand(updateTriggerQuery, connection))
@@ -88,8 +90,8 @@ namespace ilvo_automatisation.Automatisation
                         SELECT @ID = DELETED.ID
                         FROM DELETED
 
-                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => $"[{p.Name}]"))})
-                        VALUES({string.Join(",", entityType.GetProperties().Select(p => $"DELETED.[{p.Name}]"))}, SUSER_SNAME(), GETDATE(), 'Deleted')
+                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => $"DELETED.[{p.Name}]"))}, [UpdatedBy],[UpdatedOn],[Status])
+                        SELECT {string.Join(",", entityType.GetProperties().Select(p => $"DELETED.[{p.Name}]"))}, USER_NAME(), GETDATE(), 'Deleted' FROM DELETED
                     END";
 
                     // Execute the delete trigger query using a SqlCommand

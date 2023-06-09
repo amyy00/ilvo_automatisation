@@ -20,7 +20,7 @@ public abstract class Program
         string outputPath = GetDefaultOutputPath();
 
         Begin:
-        Console.WriteLine("Please enter a command: csv, mock, trigger, history, exit");
+        Console.WriteLine("Please enter a command: mock, csv, trigger, history, exit");
         string? input = Console.ReadLine()?.ToLower();
 
         switch (input)
@@ -50,20 +50,25 @@ public abstract class Program
                 var triggerEntityTypes = dbContext.Model.GetEntityTypes();
                 foreach (var triggerEntityType in triggerEntityTypes)
                 {
-                    // Automate triggers for each entity type
-                    Triggers.AutomateTriggers(triggerEntityType.ClrType, databaseName);
+                    if (triggerEntityType.ClrType != null)
+                    {
+                        // Automate triggers for each entity type
+                        Triggers.AutomateTriggers(triggerEntityType.ClrType, databaseName);
+                    }
                 }
                 Console.WriteLine("Program completed");
                 break;
 
+
             case "history":
                 Console.WriteLine("Executing command trigger...");
                 // Get all entity types from the DbContext model
+                string historyDatabaseName = dbContext.Database.GetDbConnection().Database;
                 var historyEntityTypes = dbContext.Model.GetEntityTypes();
                 foreach (var historyEntityType in historyEntityTypes)
                 {
                     // Create history tables for each entity type
-                    History.CreateHistoryTables(historyEntityType.ClrType);
+                    History.CreateHistoryTables(historyEntityType.ClrType, historyDatabaseName);
                 }
                 Console.WriteLine("Program completed");
                 break;
