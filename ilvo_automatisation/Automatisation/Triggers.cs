@@ -1,6 +1,7 @@
 ﻿using ilvo_automatisation.Data;
 using Microsoft.Data.SqlClient;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ilvo_automatisation.Automatisation
 {
@@ -14,24 +15,29 @@ namespace ilvo_automatisation.Automatisation
 
             try
             {
-                // Get the database name based on the connection string
-                string databaseName = new SqlConnectionStringBuilder(Constants.connectionString).InitialCatalog;
+                // Get the table name based on the entity type
+                string tableName = entityType.GetCustomAttributesData()
+                    .FirstOrDefault(x => x.AttributeType == typeof(TableAttribute))
+                    ?.ConstructorArguments
+                    .FirstOrDefault()
+                    .Value
+                    .ToString();
 
                 // Remove existing triggers
-                RemoveTriggers(databaseName, className);
+                RemoveTriggers(tableName);
 
                 // Trigger for update
                 string updateTriggerQuery = $@"
-                    CREATE TRIGGER [dbo].[{databaseName}_{className}Trigger_UPDATE] ON [dbo].[{className}]
+                    CREATE TRIGGER [dbo].[{tableName}Trigger_UPDATE] ON [dbo].[{tableName}]
                     AFTER UPDATE AS
                     BEGIN
                         SET NOCOUNT ON;
                         DECLARE @ID uniqueidentifier
 
-                        SELECT @ID = dbo.{className}.ID
-                        FROM INSERTED, dbo.{className}
+                        SELECT @ID = dbo.{tableName}.ID
+                        FROM INSERTED, dbo.{tableName}
 
-                        INSERT INTO history.{className}({string.Join(",", entityType.GetProperties().Select(p => p.Name))})
+                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => p.Name))})
                         VALUES( @ID, SUSER_SNAME(), GETDATE(), 'Updated')
                     END";
 
@@ -47,7 +53,7 @@ namespace ilvo_automatisation.Automatisation
                 }
 
                 // Display success message after creating the update trigger
-                Console.WriteLine($"Trigger update {className.ToLower()} created successfully!");
+                Console.WriteLine($"Trigger update {tableName.ToLower()} created successfully!");
             }
             catch (Exception ex)
             {
@@ -57,12 +63,17 @@ namespace ilvo_automatisation.Automatisation
 
             try
             {
-                // Get the database name based on the connection string
-                string databaseName = new SqlConnectionStringBuilder(Constants.connectionString).InitialCatalog;
+                // Get the table name based on the entity type
+                string tableName = entityType.GetCustomAttributesData()
+                    .FirstOrDefault(x => x.AttributeType == typeof(TableAttribute))
+                    ?.ConstructorArguments
+                    .FirstOrDefault()
+                    .Value
+                    .ToString();
 
                 // Trigger for delete
                 string deleteTriggerQuery = $@"
-                    CREATE TRIGGER [dbo].[{databaseName}_{className}Trigger_DELETE] ON [dbo].[{className}]
+                    CREATE TRIGGER [dbo].[{tableName}Trigger_DELETE] ON [dbo].[{tableName}]
                     AFTER DELETE AS
                     BEGIN
                         SET NOCOUNT ON;
@@ -71,7 +82,7 @@ namespace ilvo_automatisation.Automatisation
                         SELECT @ID = DELETED.ID
                         FROM DELETED
 
-                        INSERT INTO history.{className}({string.Join(",", entityType.GetProperties().Select(p => p.Name))})
+                        INSERT INTO history.{tableName}({string.Join(",", entityType.GetProperties().Select(p => p.Name))})
                         VALUES( @ID, SUSER_SNAME(), GETDATE(), 'Deleted')
                     END";
 
@@ -87,7 +98,7 @@ namespace ilvo_automatisation.Automatisation
                 }
 
                 // Display success message after creating the delete trigger
-                Console.WriteLine($"Trigger delete {className.ToLower()} created successfully!");
+                Console.WriteLine($"Trigger delete {tableName.ToLower()} created successfully!");
             }
             catch (Exception ex)
             {
@@ -97,8 +108,8 @@ namespace ilvo_automatisation.Automatisation
 
         }
 
-        // Method to remove existing triggers for the specified class name
-        private static void RemoveTriggers(string databaseName, string className)
+        // Method to remove existing triggers for the specified table name
+        private static void RemoveTriggers(string tableName)
         {
             try
             {
@@ -108,10 +119,10 @@ namespace ilvo_automatisation.Automatisation
 
                     // Remove update trigger if it exists
                     string removeUpdateTriggerQuery = $@"
-                        IF EXISTS (SELECT * FROM sys.triggers WHERE name = '{databaseName}_{className}Trigger_UPDATE')
-                        BEGIN
-                            DROP TRIGGER [dbo].[{databaseName}_{className}Trigger_UPDATE]
-                        END";
+                    IF EXISTS (SELECT * FROM sys.triggers WHERE name = '{tableName}Trigger_UPDATE')
+                    BEGIN
+                        DROP TRIGGER [dbo].[{tableName}Trigger_UPDATE]
+                    END";
 
                     using (SqlCommand command = new SqlCommand(removeUpdateTriggerQuery, connection))
                     {
@@ -120,9 +131,9 @@ namespace ilvo_automatisation.Automatisation
 
                     // Remove delete trigger if it exists
                     string removeDeleteTriggerQuery = $@"
-                        IF EXISTS (SELECT * FROM sys.triggers WHERE name = '{databaseName}_{className}Trigger_DELETE')
+                        IF EXISTS (SELECT * FROM sys.triggers WHERE name = '{tableName}Trigger_DELETE')
                         BEGIN
-                            DROP TRIGGER [dbo].[{databaseName}_{className}Trigger_DELETE]
+                            DROP TRIGGER [dbo].[{tableName}Trigger_DELETE]
                         END";
 
                     using (SqlCommand command = new SqlCommand(removeDeleteTriggerQuery, connection))
@@ -132,12 +143,12 @@ namespace ilvo_automatisation.Automatisation
                 }
 
                 // Display success message after removing existing triggers
-                Console.WriteLine($"Existing triggers for {className.ToLower()} removed successfully!");
+                Console.WriteLine($"Existing triggers for {tableName.ToLower()} removed successfully!");
             }
             catch (Exception ex)
             {
                 // Display error message if an exception occurs during trigger removal
-                Console.WriteLine($"Failed to remove existing triggers for {className.ToLower()}: " + ex.Message);
+                Console.WriteLine($"Failed to remove existing triggers for {tableName.ToLower()}: " + ex.Message);
             }
         }
     }
