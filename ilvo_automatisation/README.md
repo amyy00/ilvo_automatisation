@@ -56,7 +56,6 @@ The project allows generating CSV files from the database. To generate a CSV fil
 
 
 # Usage
-
 1. Run the program.
 2. Enter one of the following commands when prompted:
   - csv: Generate a CSV file from the database.
